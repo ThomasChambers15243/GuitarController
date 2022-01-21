@@ -1,2 +1,2 @@
-# comp140-Project
+# COMP140 Project
 Base repositry for the COMP140 - Creative Computing Project
