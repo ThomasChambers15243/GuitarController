@@ -23,5 +23,14 @@ The desired voltage for each fret can be calulate by a ratio of the connect resi
     - Have a high input voltage and step it down before the arduino reads it.
     - Have less frets, start with 5 and see how many can be added before it gets unreadable, to keep the voltage higher.
 
+### Stretch Goals
+- **LED effects** - Everytime you play a note, LED effect along the neck are *played*. Such as a *pushing* effect of lights up the neck, with them slowing falling back down or rippling effects from every note the user plays.
+- **Bending Pedal** - Due to the current running through the strings, the strings **have** to stay disconnected from each other during the entire game. This makes bending the strings, a key part of some guitar styles, next to impossible. A way around this problem would be to add a pedal to the controller, which takes the currently play note and increases its Hz based on teh value given by the pedal. The pedal would measure analogue input, ranging from 1 to 3 semitones. The neutral position would be of no effect, and removing your foot from the pedal would reset the pedal to the neutral position
+
 ### Parts Needed
 A standard 6-string guitar has 21 frets. Each fret would its own resistor, meaning 126 resistors in total. 5 strings would only require 30. 
+5 strips of LED lights
+Minimum of one arduino
+(Arduino wifi Card)
+
+
