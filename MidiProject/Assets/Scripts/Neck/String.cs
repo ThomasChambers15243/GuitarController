@@ -38,9 +38,12 @@ public class String : MonoBehaviour
     }
 
     // Sets range of freqs relitive to their position on the neck
-    public void SetFreqRangeOfNotes()
+    public void SetVoltageRangeOfNotes()
     {
-
+        for(int i = 0; i < 6; i++)
+        {
+            notes[i].SetVoltage(Tunnings.voltageFromFret1[i]);
+        }
     }
 
     /// <summary>
