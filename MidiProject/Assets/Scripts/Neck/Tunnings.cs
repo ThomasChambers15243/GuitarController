@@ -14,4 +14,7 @@ public static class Tunnings
 
     public static string[] dropDTunning = { "d", "b", "g", "d", "a", "e" };
 
+    // Voltage from the first fret to the 6th fret
+    public static float[] voltageFromFret1 = { 4.64f, 4.34f, 4.03f, 3.57f, 3.23f, 2.85f };
+
 }
