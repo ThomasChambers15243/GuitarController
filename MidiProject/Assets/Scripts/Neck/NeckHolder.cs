@@ -22,6 +22,7 @@ public class NeckHolder : MonoBehaviour
             guitarString.tunning = guitarTunning[i];
             guitarString.octave = 4;
             guitarString.SetNotes();
+            guitarString.SetVoltageRangeOfNotes();
             strings[i] = guitarString;            
         }
     }
