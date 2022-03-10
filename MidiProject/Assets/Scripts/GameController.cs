@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         NeckHolder neckHolder = new NeckHolder();
+
         for(int i = 0; i < 6; i++)
         {
             Debug.Log(neckHolder.strings[i].tunning);

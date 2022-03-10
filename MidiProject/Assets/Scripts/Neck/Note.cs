@@ -8,18 +8,27 @@ public class Note : MonoBehaviour
 {
     private string noteName;
     private float freq;
-    struct voltageRange
-    {
-        float minVoltage;
-        float maxVoltage;
-    }
 
+    private float minVoltage;
+    private float maxVoltage;
+
+
+
+    /// <summary>
+    /// Constructor which sets the name and the frequency
+    /// </summary>
+    /// <param name="newName">Note name</param>
+    /// <param name="octave">Note octave</param>
     public Note(string newName, int octave)
     {
         noteName = newName.ToUpper();
         setFreq(octave);
     }
 
+    /// <summary>
+    /// Sets the frequency of the note
+    /// </summary>
+    /// <param name="octave"></param>
     public void setFreq(int octave)
     {
         float recordFreq = FindNoteFreq(noteName, octave);
@@ -34,10 +43,28 @@ public class Note : MonoBehaviour
         }
     }
 
-    // Checks to see if the input voltage is within in the votlage range
-    // if so it returns true else false
-    public bool isNote(int inputVoltage) { return false; }
+    /// <summary>
+    /// Checks to see if the input voltage is within range
+    /// for the note
+    /// </summary>
+    /// <param name="inputVoltage">Voltage to be checked against the min-max voltage</param>
+    /// <returns>true if note, false if note</returns>
+    public bool isNote(float inputVoltage)
+    {
+        if (inputVoltage >= minVoltage && inputVoltage <= maxVoltage)
+        {
+            return true;
+        }
+        return false;
+    }
 
+
+    /// <summary>
+    /// Finds the frequency for the givin note
+    /// </summary>
+    /// <param name="note_Name">Notes name</param>
+    /// <param name="octave">Notes octave</param>
+    /// <returns></returns>
     private float FindNoteFreq(string note_Name, int octave)
     {
         string jsonString = File.ReadAllText("Assets/Scripts/Neck/noteData.json");
@@ -62,10 +89,20 @@ public class Note : MonoBehaviour
         }
         return 0f;
     }
+    
+    /// <summary>
+    /// Gets the name of the note
+    /// </summary>
+    /// <returns>returns the note name</returns>
     public string GetName()
     {
         return noteName;
     }
+
+    /// <summary>
+    /// Gets the note frequency
+    /// </summary>
+    /// <returns>Returns the frequency</returns>
     public float GetFreq()
     {
         return freq;

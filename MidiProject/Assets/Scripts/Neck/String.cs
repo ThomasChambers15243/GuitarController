@@ -14,11 +14,6 @@ public class String : MonoBehaviour
 
 
 
-    float GetInputVoltage()
-    {
-        return 1f;
-    }
-
     /// <summary>
     /// Fills up notes array with correct notes according to objects tunnings.
     /// </summary>
@@ -48,10 +43,43 @@ public class String : MonoBehaviour
 
     }
 
-    // Loops through notes until notes.isNote() returns true then returns that note -- Could be recursive?
-    void GetNote(float voltage) // return type Note
+    /// <summary>
+    /// Finds the note corresponding to the givin voltage
+    /// </summary>
+    /// <param name="voltage">The voltage from the guitar reading</param>
+    /// <returns>The note if found, else null</returns>
+    public Note GetNote(float voltage)
     {
+        int index = GetNoteIndex(voltage);
 
+        if (index != -1)
+        {
+            return notes[index];
+        }
+        else
+        {
+            return null;
+        }
     }
+
+    /// <summary>
+    /// Finds the index in notes for the corresponding note
+    /// to the givin voltage
+    /// </summary>
+    /// <param name="voltage">The voltage from the guitar reading</param>
+    /// <returns>The index of the note in notes if found, else -1</returns>
+    public int GetNoteIndex(float voltage)
+    {
+        for (int i = 0; i < notes.Length; i++)
+        {
+            if (notes[i].isNote(voltage))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 
 }

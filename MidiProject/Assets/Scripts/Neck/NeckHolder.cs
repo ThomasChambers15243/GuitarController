@@ -9,6 +9,9 @@ public class NeckHolder : MonoBehaviour
     
     public String[] strings = new String[6];
     
+    /// <summary>
+    /// Constructor which fills the strings array with string object
+    /// </summary>
     public NeckHolder()
     {
         for (int i = 0; i < 6; i++)
