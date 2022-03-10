@@ -43,6 +43,7 @@ public class GameController : MonoBehaviour
             Quaternion q = new Quaternion(0.707106829f, 0, 0, 0.707106829f);
             Vector3 spawn = new Vector3(spawnPosition.x + i * stringGapScalar, spawnPosition.y, spawnPosition.z);
             strings[i] = Instantiate(stringPrefab, spawn , q);
+            strings[i].GetComponent<Transform>().SetParent(stringSpawner.transform);
         }
     }
 
@@ -59,6 +60,7 @@ public class GameController : MonoBehaviour
                 Quaternion q = new Quaternion(0, 0, 0, 1);
                 Vector3 spawn = new Vector3(spawnPosition.x + i * stringGapScalar, spawnPosition.y, spawnPosition.z + j * noteGapScalar);
                 notes[noteCounter] = Instantiate(notePrefab, spawn, q);
+                notes[noteCounter].GetComponent<Transform>().SetParent(noteSpawner.transform);
                 noteCounter += 1;
             }
         }
