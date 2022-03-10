@@ -89,6 +89,13 @@ public class Note : MonoBehaviour
         }
         return 0f;
     }
+
+    public void SetVoltage(float desiredVoltage)
+    {
+        float onePercent = (desiredVoltage / 100);
+        minVoltage = desiredVoltage - onePercent;
+        maxVoltage = desiredVoltage + onePercent;
+    }
     
     /// <summary>
     /// Gets the name of the note
