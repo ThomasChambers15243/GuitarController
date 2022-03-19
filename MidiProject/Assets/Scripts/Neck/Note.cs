@@ -1,4 +1,5 @@
 using SimpleJSON;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,7 @@ public class Note : MonoBehaviour
 {
     private string noteName;
     private float freq;
+    private int noteOctave;
 
     private float minVoltage;
     private float maxVoltage;
@@ -23,6 +25,7 @@ public class Note : MonoBehaviour
     {
         noteName = newName.ToUpper();
         setFreq(octave);
+        noteOctave = octave;
     }
 
     /// <summary>
@@ -113,5 +116,15 @@ public class Note : MonoBehaviour
     public float GetFreq()
     {
         return freq;
+    }
+
+    public int GetOcatve()
+    {
+        return noteOctave;
+    }      
+
+    public string GetNameWithOctave()
+    {
+        return noteName + noteOctave;
     }
 }
