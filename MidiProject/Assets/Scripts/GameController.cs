@@ -14,7 +14,9 @@ public class GameController : MonoBehaviour
     public float stringGapScalar;
     public float noteGapScalar;
 
-    
+    [SerializeField]
+    private double gain = 1;
+
     private NeckHolder neckHolder;
     private GameObject[] strings = new GameObject[6];
     private GameObject[] notes = new GameObject[36];
@@ -27,15 +29,18 @@ public class GameController : MonoBehaviour
         SpawnStrings(stringSpawner.transform.position);
         SpawnNotes(noteSpawner.transform.position);
 
-        // This will be relitive to the pin
-        int index = GetPlayedString();
-        if (neckHolder.GetStrings()[0].GetNote(inputVoltage) != null)
-        {
-            Note playedNote = neckHolder.GetStrings()[0].GetNote(inputVoltage);
-        }        
     }
 
-
+    private void Update()
+    {
+        // This will be relitive to the pin
+        int pin = GetPlayedString();
+        if (neckHolder.GetStrings()[pin].GetNote(inputVoltage) != null)
+        {
+            Note playedNote = neckHolder.GetStrings()[pin].GetNote(inputVoltage);
+            //PlayNote(playedNote);
+        }                
+    }
 
     private void PlayNote(Note n)
     {
@@ -78,10 +83,14 @@ public class GameController : MonoBehaviour
         {            
             for (int j = 0; j < 6; j++)
             {
+                Note currentNote = neckHolder.GetStrings()[i].notes[j];
                 Quaternion q = new Quaternion(0, 0, 0, 1);
                 Vector3 spawn = new Vector3(spawnPosition.x + i * stringGapScalar, spawnPosition.y, spawnPosition.z + j * noteGapScalar);
                 notes[noteCounter] = Instantiate(notePrefab, spawn, q);
+                notes[noteCounter].name = currentNote.GetNameWithOctave();
                 notes[noteCounter].GetComponent<Transform>().SetParent(noteSpawner.transform);
+                notes[noteCounter].AddComponent<GenerateNote>();
+                notes[noteCounter].GetComponent<GenerateNote>().Innit(currentNote.GetFreq(), 1);
                 noteCounter += 1;
             }
         }
