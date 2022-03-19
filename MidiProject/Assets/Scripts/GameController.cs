@@ -90,7 +90,7 @@ public class GameController : MonoBehaviour
                 notes[noteCounter].name = currentNote.GetNameWithOctave();
                 notes[noteCounter].GetComponent<Transform>().SetParent(noteSpawner.transform);
                 notes[noteCounter].AddComponent<GenerateNote>();
-                notes[noteCounter].GetComponent<GenerateNote>().Innit(currentNote.GetFreq(), 1);
+                notes[noteCounter].GetComponent<GenerateNote>().Innit(currentNote.GetFreq(), gain);
                 noteCounter += 1;
             }
         }

@@ -12,9 +12,7 @@ public class GenerateNote : MonoBehaviour
     [SerializeField]
     private double gain;
     // Moves the sampels along the wave
-    [SerializeField]
     private double increment;
-    [SerializeField]
     private double period;
     private double sampling_frequency = 48000f;
 
