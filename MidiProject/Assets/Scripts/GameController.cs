@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
-{
+{ 
     public GameObject stringSpawner;
     public GameObject notePrefab;
     public GameObject stringPrefab;
@@ -26,23 +26,33 @@ public class GameController : MonoBehaviour
         neckHolder = new NeckHolder(Tunnings.standardTunning);        
         SpawnStrings(stringSpawner.transform.position);
         SpawnNotes(noteSpawner.transform.position);
+
         // This will be relitive to the pin
-        int index = 0;
+        int index = GetPlayedString();
         if (neckHolder.GetStrings()[0].GetNote(inputVoltage) != null)
         {
             Note playedNote = neckHolder.GetStrings()[0].GetNote(inputVoltage);
-        }
-
-
-        
-
+        }        
     }
+
+
 
     private void PlayNote(Note n)
     {
 
     }
 
+    // Returns the index of the string that was played relitive to the input pin
+    // Pin A0 == string 0
+    private int GetPlayedString()
+    {
+        return 0;
+    }
+
+    private void ChangeMaterialTo(GameObject g, string path)
+    {
+        g.GetComponent<Renderer>().material = Resources.Load(path, typeof(Material)) as Material;
+    }
 
     /// <summary>
     /// Spawns strings on the backing
