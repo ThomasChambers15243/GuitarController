@@ -20,7 +20,20 @@ public class NeckHolder : MonoBehaviour
             // Settings strings to standard tunnings
             String guitarString = new String();
             guitarString.tunning = guitarTunning[i];
-            guitarString.octave = 4;
+
+            // Set octave of strings in accordance to standard tunned octaves
+            if (i == 0)
+            {
+                guitarString.octave = 4;
+            }
+            else if (i < 4)
+            {
+                guitarString.octave = 3;
+            }
+            else
+            {
+                guitarString.octave = 2;
+            }
             guitarString.SetNotes();
             guitarString.SetVoltageRangeOfNotes();
             strings[i] = guitarString;            
