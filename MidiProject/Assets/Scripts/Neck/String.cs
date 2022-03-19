@@ -19,16 +19,18 @@ public class String : MonoBehaviour
     /// </summary>
     public void SetNotes()
     {
+        int tempOctave = octave;
         int noteCount = Array.IndexOf(Tunnings.allOctaveNotes, tunning);
 
         for (int i = 0; i < 6; i++)
         {
-            Note note = new Note(Tunnings.allOctaveNotes[noteCount], octave);
+            Note note = new Note(Tunnings.allOctaveNotes[noteCount], tempOctave);
             notes[i] = note;
 
             if (noteCount%11 == 0)
             {
                 noteCount = 0;
+                tempOctave += 1;
             }
             else
             {
