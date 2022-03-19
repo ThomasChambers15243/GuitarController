@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour
     public GameObject notePrefab;
     public GameObject stringPrefab;
     public GameObject noteSpawner;
-
+    // WILL BE VOLTAGE FROM GUITAR BUT FOR NOW ITS FROM ME
+    public float inputVoltage;
     // Gaps between strings and notes
     public float stringGapScalar;
     public float noteGapScalar;
@@ -22,15 +23,25 @@ public class GameController : MonoBehaviour
     void Start()
     {
         // Innits all strings and notes for standard tunnings
-        NeckHolder neckHolder = new NeckHolder(Tunnings.standardTunning);        
+        neckHolder = new NeckHolder(Tunnings.standardTunning);        
         SpawnStrings(stringSpawner.transform.position);
         SpawnNotes(noteSpawner.transform.position);
+        // This will be relitive to the pin
+        int index = 0;
+        if (neckHolder.GetStrings()[0].GetNote(inputVoltage) != null)
+        {
+            Note playedNote = neckHolder.GetStrings()[0].GetNote(inputVoltage);
+        }
+
+
+        
 
     }
 
+    private void PlayNote(Note n)
+    {
 
-
-
+    }
 
 
     /// <summary>
