@@ -797,7 +797,7 @@ MonoBehaviour:
   stringPrefab: {fileID: 3504633348743201972, guid: 4c715da2abfb31048b539f1d933283e0,
     type: 3}
   noteSpawner: {fileID: 259858586}
-  inputVoltage: 0
+  inputVoltage: 4.64
   stringGapScalar: -1.2
   noteGapScalar: 1.6
   gain: 1
