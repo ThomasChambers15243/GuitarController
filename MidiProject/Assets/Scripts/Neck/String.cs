@@ -59,7 +59,13 @@ public class String : MonoBehaviour
 
         if (index != -1)
         {
-            return notes[index];
+            Note foundNote = new Note(notes[index].GetName(), notes[index].GetOcatve());
+            foundNote.SetVoltage(notes[index].GetPerfectVoltage());
+            return foundNote;
+            // WHY IS THIS NULL WHAT
+            // This kept returning null but i have no idea why, maybe its some wierd unity thing??? idk,
+            // or some weird keeping-objects-in-arrarys-and-not-lists thing
+            //return notes[index];
         }
         else
         {
@@ -76,9 +82,10 @@ public class String : MonoBehaviour
     public int GetNoteIndex(float voltage)
     {
         for (int i = 0; i < notes.Length; i++)
-        {
+        {            
             if (notes[i].isNote(voltage))
             {
+                Debug.Log("Index is " + i);
                 return i;
             }
         }
