@@ -28,23 +28,36 @@ public class GameController : MonoBehaviour
         neckHolder = new NeckHolder(Tunnings.standardTunning);        
         SpawnStrings(stringSpawner.transform.position);
         SpawnNotes(noteSpawner.transform.position);
-
     }
 
     private void Update()
     {
-        // This will be relitive to the pin
         int pin = GetPlayedString();
-        if (neckHolder.GetStrings()[pin].GetNote(inputVoltage) != null)
-        {
-            Note playedNote = neckHolder.GetStrings()[pin].GetNote(inputVoltage);
-            //PlayNote(playedNote);
-        }                
+        float testVal = 4.64f;
+        Note playedNote = neckHolder.GetStrings()[pin].GetNote(inputVoltage);
+        PlayNote(playedNote);
     }
 
     private void PlayNote(Note n)
     {
-
+        foreach(GameObject note in notes)
+        {
+            try
+            {
+                if(n.GetNameWithOctave() == note.name)
+                {
+                    note.GetComponent<GenerateNote>().playEffect = true;
+                }
+                else
+                {
+                    note.GetComponent<GenerateNote>().playEffect = false;
+                }
+            }
+            catch (System.NullReferenceException err)
+            {
+                note.GetComponent<GenerateNote>().playEffect = false;                
+            }
+        }
     }
 
     // Returns the index of the string that was played relitive to the input pin
