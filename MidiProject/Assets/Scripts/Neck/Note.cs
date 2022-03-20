@@ -10,9 +10,10 @@ public class Note : MonoBehaviour
     private string noteName;
     private float freq;
     private int noteOctave;
+    private float perfectVoltage;
 
-    private float minVoltage;
-    private float maxVoltage;
+    public float minVoltage;
+    public float maxVoltage;
 
 
 
@@ -95,6 +96,7 @@ public class Note : MonoBehaviour
 
     public void SetVoltage(float desiredVoltage)
     {
+        perfectVoltage = desiredVoltage;
         float onePercent = (desiredVoltage / 100);
         minVoltage = desiredVoltage - onePercent;
         maxVoltage = desiredVoltage + onePercent;
@@ -125,6 +127,12 @@ public class Note : MonoBehaviour
 
     public string GetNameWithOctave()
     {
-        return noteName + noteOctave;
+        return (string) noteName + noteOctave;
     }
+
+    public float GetPerfectVoltage()
+    {
+        return perfectVoltage;
+    }
+
 }
