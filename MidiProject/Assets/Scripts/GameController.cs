@@ -15,29 +15,39 @@ public class GameController : MonoBehaviour
     public float noteGapScalar;
 
     [SerializeField]
-    private double gain = 1;
+    private double gain = 0;
 
     private NeckHolder neckHolder;
     private GameObject[] strings = new GameObject[6];
-    private GameObject[] notes = new GameObject[36];
+    // TODO split up into seperate arrays...maybe?
+    private GameObject[] notes = new GameObject[36]; 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         // Innits all strings and notes for standard tunnings
-        neckHolder = new NeckHolder(Tunnings.standardTunning);        
+        neckHolder = new NeckHolder(Tunnings.standardTunning);
+        // Spawn in the string and note prefabs
         SpawnStrings(stringSpawner.transform.position);
         SpawnNotes(noteSpawner.transform.position);
     }
 
+
     private void Update()
     {
+        FreePlay();
+    }
+
+    public void FreePlay()
+    {
         int pin = GetPlayedString();
-        float testVal = 4.64f;
         Note playedNote = neckHolder.GetStrings()[pin].GetNote(inputVoltage);
         PlayNote(playedNote);
     }
 
+    /// <summary>
+    /// Played the given note and turns the others off
+    /// </summary>
+    /// <param name="n">Note object</param>
     private void PlayNote(Note n)
     {
         foreach(GameObject note in notes)

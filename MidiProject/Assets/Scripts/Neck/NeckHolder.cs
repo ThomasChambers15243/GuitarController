@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
 
-public class NeckHolder : MonoBehaviour
+public class NeckHolder
 {
 
     

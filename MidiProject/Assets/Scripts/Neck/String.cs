@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class String : MonoBehaviour
+public class String
 {
     public string tunning;
     public int octave;
@@ -55,22 +55,22 @@ public class String : MonoBehaviour
     /// <returns>The note if found, else null</returns>
     public Note GetNote(float voltage)
     {
-        int index = GetNoteIndex(voltage);
-
-        if (index != -1)
-        {
-            Note foundNote = new Note(notes[index].GetName(), notes[index].GetOcatve());
-            foundNote.SetVoltage(notes[index].GetPerfectVoltage());
-            return foundNote;
-            // WHY IS THIS NULL WHAT
-            // This kept returning null but i have no idea why, maybe its some wierd unity thing??? idk,
-            // or some weird keeping-objects-in-arrarys-and-not-lists thing
-            //return notes[index];
-        }
-        else
-        {
-            return null;
-        }
+        int index = GetNoteIndex(voltage); 
+        return notes[index];
+        //if (index != -1)
+        //{
+        //    //Note foundNote = new Note(notes[index].GetName(), notes[index].GetOcatve());
+        //    //foundNote.SetVoltage(notes[index].GetPerfectVoltage());
+        //    //return foundNote;
+        //    // WHY IS THIS NULL WHAT
+        //    // This kept returning null but i have no idea why, maybe its some wierd unity thing??? idk,
+        //    // or some weird keeping-objects-in-arrarys-and-not-lists thing
+        //    return notes[index];
+        //}
+        //else
+        //{
+        //    return null;
+        //}
     }
 
     /// <summary>
