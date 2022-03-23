@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         FreePlay();
+        
     }
 
     public void FreePlay()
