@@ -2,7 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AtDoomsGate 
+public class AtDoomsGate
 {
-    public SongMapping AtDoomsGateMapped = new SongMapping();
+    private SongMapping map;
+
+    public void Map()
+    {
+        map = new SongMapping();
+    }
+    
+    private void MapNotes()
+    {
+        map.MapNote("a#", 2, -2);
+        map.MapNote("",,);
+
+    }
+    
+
+
+
 }
