@@ -11,8 +11,18 @@ public class SongMapping
         public int noteOctave { get; set; }
         public float duration { get; set; }
     }
+
+    // Check to see if the map is been finalized and completed.
+    // Should only be set to true when FinalizeMap() is called
+    private bool isMapFinalize = false;
+
     // Collection of mapped notes for the entire song
     public Stack<MappedNote> songMap = new Stack<MappedNote>();
+
+    // Temp collections of notes for the map. Is then added to the stack
+    // This means that when mapping songs, you don't have to add it backwards
+    // but still get the benifits of the stack structure
+    private List<MappedNote> tempSongMaps = new List<MappedNote>();
 
     // Collection of note that have been played, regardless of whether
     // they were hit or missed
@@ -21,9 +31,23 @@ public class SongMapping
     // Total score
     public int score = 0;
 
-    public void AddNoteToMap(MappedNote note)
+    private void AddNoteToMap(MappedNote note)
     {
-        songMap.Push(note);
+        tempSongMaps.Add(note);
+    }
+
+    
+    public void FinalizeMap()
+    {
+        // Reverse the list so when its pushed
+        // to the stack. the top of the stack is
+        // the first note of the song
+        tempSongMaps.Reverse();
+        foreach(MappedNote n in tempSongMaps)
+        {
+            songMap.Push(n);
+        }
+        isMapFinalize = true;
     }
 
     public void RemoveNoteFromMapAndAddToNotes()
@@ -59,6 +83,15 @@ public class SongMapping
         mNote.noteOctave = _noteOctave;
         mNote.duration = _duration;
         AddNoteToMap(mNote);
+    }
+
+    public bool IsMapFinalize()
+    {
+        if(isMapFinalize)
+        {
+            return true;
+        }
+        return false;
     }
 
 }
