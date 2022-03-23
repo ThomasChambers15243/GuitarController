@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SongMapping 
+public class SongMapping
 {
     // Individual notes which the user plays
     public struct MappedNote
     {
-        public string noteName { get;  set; }
+        public string noteName { get; set; }
         public int noteOctave { get; set; }
         public float duration { get; set; }
     }
     // Collection of mapped notes for the entire song
-    private Stack<MappedNote> songMap = new Stack<MappedNote>();
+    public Stack<MappedNote> songMap = new Stack<MappedNote>();
 
     // Collection of note that have been played, regardless of whether
     // they were hit or missed
-    private List<MappedNote> notesPlayed = new List<MappedNote>();
+    public  List<MappedNote> notesPlayed = new List<MappedNote>();
 
     // Total score
-    int score = 0;
+    public int score = 0;
 
     public void AddNoteToMap(MappedNote note)
     {
@@ -52,13 +52,13 @@ public class SongMapping
     }
 
     // Creates and returns a new mapped note
-    public MappedNote MapNote(string _noteName, int _noteOctave, float _duration)
+    public void MapNote(string _noteName, int _noteOctave, float _duration)
     {
         MappedNote mNote = new MappedNote();
         mNote.noteName = _noteName;
         mNote.noteOctave = _noteOctave;
         mNote.duration = _duration;
-        return mNote;
+        AddNoteToMap(mNote);
     }
 
 }
