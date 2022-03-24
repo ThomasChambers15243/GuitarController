@@ -26,75 +26,7 @@ public class SongMapping
     // but still get the benifits of the stack structure
     private List<MappedNote> tempSongMaps = new List<MappedNote>();
 
-    // Collection of note that have been played, regardless of whether
-    // they were hit or missed
-    public  List<MappedNote> notesPlayed = new List<MappedNote>();
 
-    // Total score
-    public int score = 0;
-
-    /// <summary>
-    /// Appends the given note to the tempNotes List
-    /// </summary>
-    /// <param name="note"></param>
-    private void AddNoteToMap(MappedNote note)
-    {
-        tempSongMaps.Add(note);
-    }
-    
-    /// <summary>
-    /// Adds all note to the map stack and declares the 
-    /// map as complete
-    /// </summary>
-    public void FinalizeMap()
-    {
-        // Reverse the list so when its pushed
-        // to the stack. the top of the stack is
-        // the first note of the song
-        tempSongMaps.Reverse();
-        foreach(MappedNote n in tempSongMaps)
-        {
-            songMap.Push(n);
-        }
-        isMapFinalize = true;
-    }
-
-    /// <summary>
-    /// Pops a note from the map and records 
-    /// it as a played note
-    /// </summary>
-    private void RemoveNoteFromMapAndAddToNotes()
-    {
-        MappedNote nNote = songMap.Pop();
-        notesPlayed.Add(nNote);
-    }
-
-    /// <summary>
-    /// Incremeants the score if the note was hit
-    /// </summary>
-    /// <param name="wasHit">True if the player hit the note, false if they missed</param>
-    public void IncremeantScore(bool wasHit)
-    {
-        if (wasHit)
-        {
-            score += 1;
-        }
-    }
-
-    /// <summary>
-    /// Formates text for all notes that have been played
-    /// </summary>
-    /// <returns>String text</returns>
-    public string NotesPlayed()
-    {
-        string text = "Notes played are: \n";
-        foreach(MappedNote n in notesPlayed)
-        {
-            text += n.noteName;
-            text += "\n";
-        }
-        return text;
-    }
 
     /// <summary>
     /// Adds a note to the song map, from first note to last note
@@ -108,10 +40,27 @@ public class SongMapping
         MappedNote mNote = new MappedNote();
         mNote.noteName = _noteName;
         mNote.noteOctave = _noteOctave;
-        mNote.duration = _duration;        
+        mNote.duration = _duration;
 
         // Add note to map
         AddNoteToMap(mNote);
+    }
+
+    /// <summary>
+    /// Adds all note to the map stack and declares the 
+    /// map as complete
+    /// </summary>
+    public void FinalizeMap()
+    {
+        // Reverse the list so when its pushed
+        // to the stack. the top of the stack is
+        // the first note of the song
+        tempSongMaps.Reverse();
+        foreach (MappedNote n in tempSongMaps)
+        {
+            songMap.Push(n);
+        }
+        isMapFinalize = true;
     }
 
     /// <summary>
@@ -127,4 +76,38 @@ public class SongMapping
         return false;
     }
 
+    /// <summary>
+    /// Pops a note from the map and records 
+    /// it as a played note
+    /// </summary>
+    public MappedNote RemoveNoteFromMap()
+    {
+        MappedNote nNote = songMap.Pop();
+        return nNote;
+    }
+    
+    /// <summary>
+    /// Appends the given note to the tempNotes List
+    /// </summary>
+    /// <param name="note"></param>
+    private void AddNoteToMap(MappedNote note)
+    {
+        tempSongMaps.Add(note);
+    }
+    
+
+    /// <summary>
+    /// Formates text for all notes that have been played
+    /// </summary>
+    /// <returns>String text</returns>
+    public string NotesPlayed()
+    {
+        string text = "Notes played are: \n";
+        foreach(MappedNote n in notesPlayed)
+        {
+            text += n.noteName;
+            text += "\n";
+        }
+        return text;
+    }
 }

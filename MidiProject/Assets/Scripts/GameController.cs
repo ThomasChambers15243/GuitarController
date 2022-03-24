@@ -35,7 +35,13 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         FreePlay();
-        
+        PlaySong("AtDoomsGate");
+    }
+
+    public void PlaySong(string songName)
+    {
+        SongPlay playSong = new SongPlay("SongName");
+        playSong.PlayGame();
     }
 
     public void FreePlay()
