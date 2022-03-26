@@ -12,8 +12,14 @@ public class MappedSong
     // Template inwhcih to load song data from 
     private SongTemplate song;
 
+    // Number of notes in the map
+    private int lengthOfMap;
+
     // Name of Map
     public string name{get;}
+
+    // Score of map
+    public int score = 0;
 
     // Collection of note that have been played, regardless of whether
     // they were hit or missed
@@ -22,8 +28,6 @@ public class MappedSong
     // Current note thats been poped of map stack
     public SongMapping.MappedNote currentNote = new SongMapping.MappedNote();
 
-    private int score;
-
     public MappedSong(string s_name)
     {
         name = s_name;
@@ -31,7 +35,7 @@ public class MappedSong
         MapInnit();
     }
 
-    public void PlayNote(int tempo)
+    public void PlayNote()
     {
         currentNote = map.RemoveNoteFromMap();
 
@@ -39,19 +43,6 @@ public class MappedSong
         SongMapping.MappedNote lastPlayedNote = new SongMapping.MappedNote();
         notesPlayed.Add(lastPlayedNote);
     }
-
-    /// <summary>
-    /// Incremeants the score if the note was hit
-    /// </summary>
-    /// <param name="wasHit">True if the player hit the note, false if they missed</param>
-    public void IncremeantScore(bool wasHit)
-    {
-        if (wasHit)
-        {
-            score += 1;
-        }
-    }
-
 
 
     private void MapInnit()
@@ -67,7 +58,7 @@ public class MappedSong
     /// </summary>
     private void MapNotes()
     {
-        if (!map.IsMapFinalize())
+        if (!map.IsMapFinalized())
         {
             for(int i = 0; i < song.noteCount; i++)
             {
@@ -75,4 +66,37 @@ public class MappedSong
             }
         }
     }
+
+    /// <summary>
+    /// Formates text for all notes that have been played
+    /// </summary>
+    /// <returns>String text</returns>
+    public string NotesPlayed()
+    {
+        string text = "Notes played are: \n";
+        foreach (SongMapping.MappedNote n in notesPlayed)
+        {
+            text += n.noteName;
+            text += "\n";
+        }
+        return text;
+    }
+
+    public int GetLengthOfMap()
+    {
+        return lengthOfMap;
+    }
+
+    /// <summary>
+    /// Incremeants the score if the note was hit
+    /// </summary>
+    /// <param name="wasHit">True if the player hit the note, false if they missed</param>
+    public void IncremeantScore(bool wasHit)
+    {
+        if (wasHit)
+        {
+            score += 1;
+        }
+    }
+
 }
