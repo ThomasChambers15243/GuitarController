@@ -4,28 +4,54 @@ using UnityEngine;
 
 public static class SongToMapData
 {
-    private static Dictionary<string, SongTemplate> songsDict = new Dictionary<string, SongTemplate>();
+    // Dictionary holding all song data for mapping
+    // Creates a SongTemplate object per song
+    private static readonly Dictionary<string, SongTemplate> songsDict = new Dictionary<string, SongTemplate>
+    {
+        { "AtDoomsGate" , 
+            new SongTemplate(
+                "AtDoomsGate",
+                6,
+                new string[] { "e", "e", "e", "e", "e", "d" },
+                new int[] { 2, 2, 3, 2, 2, 3 },
+                new int[] { 8, 8, 8, 8, 8, 8 }
+                )
+        },
+        { "CanonInD" ,
+            new SongTemplate(
+                "CanonInD",
+                6,
+                new string[] { "e", "e", "e", "e", "e", "d" },
+                new int[] { 2, 2, 3, 2, 2, 3 },
+                new int[] { 8, 8, 8, 8, 8, 8 }
+                )
+        },
+        { "Test" ,
+            new SongTemplate(
+                "Test",
+                6,
+                new string[] { "e", "e", "e", "e", "e", "d" },
+                new int[] { 4, 4, 4, 4, 4, 4 },
+                new int[] { 8, 8, 8, 8, 8, 8 }
+                )
+        }
+    };
     public static SongTemplate GetSongToMapData(string name)
     {
-        foreach(KeyValuePair<string, SongTemplate> ele in songsDict)
+
+        foreach (KeyValuePair<string, SongTemplate> ele in songsDict)
         {
             if(ele.Key == name)
-            {
+            {                                          
+                Debug.Log("We found the data " + ele.Value.songName + ele.Value.noteCount);
                 return ele.Value;
             }
         }
         return null;
     }
-
-    // Add song data here
-    private static SongTemplate AtDoomsGate = new SongTemplate(
-        "AtDoomsGate",
-        6,
-        new string[] { "e", "e", "e", "e", "e", "d" },
-        new int[] { 2, 2, 3, 2, 2, 3 },
-        new int[] { 8, 8, 8, 8, 8, 8 }
-        );
 }
+
+
 // Name...Octave...Duration 
 // 4 is a quter note 8 is an eighteenth 16 is a sixteenth ext...
 // Negitive numbers stand for dotted notes, so -4 means a
