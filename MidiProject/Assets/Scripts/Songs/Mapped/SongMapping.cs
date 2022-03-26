@@ -21,6 +21,7 @@ public class SongMapping
     // Collection of mapped notes for the entire song
     public Stack<MappedNote> songMap = new Stack<MappedNote>();
 
+
     // Temp collections of notes for the map. Is then added to the stack
     // This means that when mapping songs, you don't have to add it backwards
     // but still get the benifits of the stack structure
@@ -55,19 +56,22 @@ public class SongMapping
         // Reverse the list so when its pushed
         // to the stack. the top of the stack is
         // the first note of the song
-        tempSongMaps.Reverse();
-        foreach (MappedNote n in tempSongMaps)
+        if(!IsMapFinalized())
         {
-            songMap.Push(n);
+            tempSongMaps.Reverse();
+            foreach (MappedNote n in tempSongMaps)
+            {
+                songMap.Push(n);
+            }
+            isMapFinalize = true;
         }
-        isMapFinalize = true;
     }
 
     /// <summary>
     /// Check to see if the map is ready and complete
     /// </summary>
     /// <returns>Bool value, true if ready, else false</returns>
-    public bool IsMapFinalize()
+    public bool IsMapFinalized()
     {
         if(isMapFinalize)
         {
@@ -94,20 +98,5 @@ public class SongMapping
     {
         tempSongMaps.Add(note);
     }
-    
-
-    /// <summary>
-    /// Formates text for all notes that have been played
-    /// </summary>
-    /// <returns>String text</returns>
-    public string NotesPlayed()
-    {
-        string text = "Notes played are: \n";
-        foreach(MappedNote n in notesPlayed)
-        {
-            text += n.noteName;
-            text += "\n";
-        }
-        return text;
-    }
+   
 }
