@@ -540,12 +540,14 @@ MonoBehaviour:
   stringPrefab: {fileID: 3504633348743201972, guid: 4c715da2abfb31048b539f1d933283e0,
     type: 3}
   noteSpawner: {fileID: 259858586}
-  inputVoltage: 4.64
+  inputVoltage: 0
   stringGapScalar: -1.2
   noteGapScalar: 1.6
   cubeNote: {fileID: 6788753615998209550, guid: 7dd101a981c9100439d8bbaf36dafbca,
     type: 3}
   gain: 1
+  cubeSpawnDistance: 10
+  tempo: 50
 --- !u!65 &1268392966
 BoxCollider:
   m_ObjectHideFlags: 0
