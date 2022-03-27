@@ -12,6 +12,8 @@ public static class SongToMapData
             new SongTemplate(
                 "AtDoomsGate",
                 6,
+                4,
+                4,
                 new string[] { "e", "e", "e", "e", "e", "d" },
                 new int[] { 2, 2, 3, 2, 2, 3 },
                 new int[] { 8, 8, 8, 8, 8, 8 }
@@ -21,6 +23,8 @@ public static class SongToMapData
             new SongTemplate(
                 "CanonInD",
                 6,
+                4,
+                4,
                 new string[] { "e", "e", "e", "e", "e", "d" },
                 new int[] { 2, 2, 3, 2, 2, 3 },
                 new int[] { 8, 8, 8, 8, 8, 8 }
@@ -30,8 +34,10 @@ public static class SongToMapData
             new SongTemplate(
                 "Test",
                 6,
+                4,
+                4,
                 new string[] { "e", "e", "e", "e", "e", "d" },
-                new int[] { 4, 4, 4, 4, 4, 4 },
+                new int[] { 4, 4, 4, 4, 4, 3 },
                 new int[] { 8, 8, 8, 8, 8, 8 }
                 )
         }
