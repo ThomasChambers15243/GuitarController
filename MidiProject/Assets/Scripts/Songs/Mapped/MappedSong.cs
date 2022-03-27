@@ -18,6 +18,10 @@ public class MappedSong
     // Name of Map
     public string name{get;}
 
+    // Time Signiture of map e.g 4/4
+    public int timesSigTop;
+    public int timesSigBot;
+
     // Score of map
     public int score = 0;
 
@@ -32,6 +36,9 @@ public class MappedSong
     {
         name = s_name;
         song = SongToMapData.GetSongToMapData(name);
+        lengthOfMap = song.noteCount;
+        timesSigTop = song.timeSigTop;
+        timesSigBot = song.timeSigBot;
         MapInnit();
     }
 
@@ -86,17 +93,4 @@ public class MappedSong
     {
         return lengthOfMap;
     }
-
-    /// <summary>
-    /// Incremeants the score if the note was hit
-    /// </summary>
-    /// <param name="wasHit">True if the player hit the note, false if they missed</param>
-    public void IncremeantScore(bool wasHit)
-    {
-        if (wasHit)
-        {
-            score += 1;
-        }
-    }
-
 }
