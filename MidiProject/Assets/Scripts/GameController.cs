@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -38,7 +40,9 @@ public class GameController : MonoBehaviour
     //private float noteTimer;
     public int cubeSpawnDistance = 10;
     public int tempo = 60;
+    private bool startMap = false;
     private float clock;
+    private float beat;
     private bool isPlayingMap = false;
     private bool hitNote = false;
     private float quarterNoteLength;
@@ -79,71 +83,92 @@ public class GameController : MonoBehaviour
 
 
 
-
+                    // TODO create timmings for holding notes,
+                    // have the note start when the blocks collide
+                    // Maybe have a quarter note as the base timer, run the
+                    // blocks of that and then reset based of the
+                    // base timer + note duration
                 case "MAPPED_SONG":
-                    // Instantiates mapped song and game mode
+                    // Instantiates mapped song and game mode                    
                     if (isPlayingMap == false)
                     {
+                        startMap = false;
                         LoadMap("Test");
                         quarterNoteLength = 60f / tempo;
-                        clock = quarterNoteLength;
+                        beat = quarterNoteLength;
+                        clock = 0;
                         isPlayingMap = true;
                         noteCount = 0;
                         playerAccuracy = 0;
-                    }
-                    // Plays next note
-                    if (quarterNoteLength <= clock)
-                    {
-                        // Increameants score only if the player hit the note
-                        if (hitNote)
-                        {
-                            song.score += playerAccuracy;
-                        }
-                        // Reset all values for individual note
-                        playerAccuracy = 0;
-                        DestroyNoteCubes();
-                        StopCubeNotesCoroutines();
-                        hitNote = false;
-                        // If the song is comleted, returns to the menu state
-                        if(noteCount == song.GetLengthOfMap())
-                        {
-                            STATE = "MENU";
-                            isPlayingMap = false;
-                            playerScore = song.score;
-                            break;
-                        }
                         song.PlayNote();
-                        clock -= quarterNoteLength;
-                        int targetCubeIndex = GetTargetNeckNoteIndex();
-                        SpawnCubeNotes(cubeSpawnDistance, targetCubeIndex);
-                        MoveCubeNotesToNote(targetCubeIndex, (cubeSpawnDistance / quarterNoteLength));
-                        noteCount += 1;
-
+                        
                     }
-                    SetPlayedNoteVoltage();
-                    hitNote = HasPlayerHitNote();
-                    // Below works on keyboard input for teting
-                    //if (Input.GetKeyDown(KeyCode.Space))
-                    //{
-                    //    hitNote = true;
-                    //}
-
-                    // Check to see how close to perfect you are
-                    // and gives you a bonus if your close
-                    if (hitNote == false)
+                    // Countdown for game to start
+                    IEnumerator countdown = Countdown(3);
+                    StartCoroutine(countdown);
+                    // Starts game map
+                    if (startMap)
                     {
-                        if (clock > quarterNoteLength / 2)
+                        StopCoroutine(countdown);
+                        // Plays next note
+                        if (clock >= beat)
                         {
-                            Debug.Log("WellTimed bonus of two");
-                            playerAccuracy = 2;
-                        } 
-                        if(clock > ((quarterNoteLength / 2) + (quarterNoteLength / 4)))
+                            // Increameants score only if the player hit the note                        
+                            if (hitNote)
+                            {
+                                song.score += playerAccuracy;
+                            }
+                            // Reset all values for individual note
+                            playerAccuracy = 0;
+                            hitNote = false;
+                            DestroyNoteCubes();
+                            StopCubeNotesCoroutines();
+                            // If the song is comleted, returns to the menu state
+                            if (noteCount == song.GetLengthOfMap())
+                            {
+                                // Change to game over screen
+                                STATE = "MENU";
+                                isPlayingMap = false;
+                                playerScore = song.score;
+                                break;
+                            }
+                            // Get the next note, reset the clock and the reset the noteCubes
+                            song.PlayNote();
+                            
+                            clock -= beat;
+                            beat = ParseNoteDuration();
+                            HandleNoteCubes(GetTargetNeckNoteIndex());
+                            noteCount += 1;
+                        }
+                        // For testing, set voltage of keyboard input
+                        SetPlayedNoteVoltage();
+                        hitNote = HasPlayerHitNote();
+
+                        // Check to see how close to perfect you are
+                        // and gives you a bonus if your close
+                        if (hitNote == false)
                         {
-                            Debug.Log("WellTimed bonus of four");
-                            playerAccuracy = 4;
+                            if (clock > quarterNoteLength / 2)
+                            {
+                                Debug.Log("WellTimed bonus of two");
+                                playerAccuracy = 2;
+                            }
+                            if (clock > ((quarterNoteLength / 2) + (quarterNoteLength / 4)))
+                            {
+                                Debug.Log("WellTimed bonus of four");
+                                playerAccuracy = 4;
+                            }
+                        }
+                        clock += Time.deltaTime;
+                        // Exit back to menu
+                        if (Input.GetKeyDown(KeyCode.P))
+                        {
+                            DestroyNoteCubes();
+                            StopCubeNotesCoroutines();
+                            Debug.Log("End was called");
+                            STATE = "MENU";
                         }
                     }
-                    clock += Time.deltaTime;
                     break;
 
 
@@ -165,9 +190,54 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void HandleNoteCubes(int targetCubeIndex)
+    {
+        SpawnCubeNotes(cubeSpawnDistance, targetCubeIndex);
+        MoveCubeNotesToNote(targetCubeIndex, (cubeSpawnDistance / beat));
+    }
+
+    private IEnumerator Countdown(int timeToCount)
+    {
+        int count = timeToCount;
+        while (count > 0)
+        {
+            count -= 1;
+            yield return new WaitForSeconds(1);
+        }
+        startMap = true;
+    }
+
+    private float ParseNoteDuration()
+    {
+        float duration = song.currentNote.duration;
+        // If d < 0 then its a dotted note
+        if (duration > 0)
+        {
+            switch (duration)
+            {
+                case 1f : return quarterNoteLength * 4;
+                case 2f : return quarterNoteLength * 2;
+                case 4f : return quarterNoteLength;
+                case 8f : return quarterNoteLength / 2;
+                case 16f: return quarterNoteLength / 4;
+            }
+        }
+        // Dotted notes are times that are the
+        // sum of their time and half their time
+        switch (duration)
+        {
+            case -1f : return quarterNoteLength + (quarterNoteLength / 2);
+            case -2f : return (quarterNoteLength *2) + quarterNoteLength;
+            case -4f : return quarterNoteLength + quarterNoteLength / 2;
+            case -8f : return (quarterNoteLength / 2) + (quarterNoteLength / 4);
+            case -16f : return (quarterNoteLength / 4) + (quarterNoteLength / 8);
+        }
+        return quarterNoteLength;
+    }
+
     // Testing func, will set voltage of string on keyboard input
     private void SetPlayedNoteVoltage()
-    {
+    {        
         if (Input.GetKeyDown(KeyCode.Q))
         {
             inputVoltage = Tunnings.voltageFromFret1[0];
@@ -202,7 +272,8 @@ public class GameController : MonoBehaviour
         {   
             inputVoltage = 0f;
             Debug.Log(inputVoltage);
-        }        
+        }   
+        
     }
 
 
@@ -232,7 +303,6 @@ public class GameController : MonoBehaviour
     {
         for(int i = 0; i < cubeNotes.Length; i++)
         {
-            Debug.Log("started");
             cubeNotesCoroutines[i] = MoveCube(cubeNotes[i], notes[noteIndex].transform.position, cubeSpeed);
             StartCoroutine(cubeNotesCoroutines[i]);
         }
@@ -277,6 +347,8 @@ public class GameController : MonoBehaviour
         playedNoteIndex += noteIndex;
         return playedNoteIndex;
     }
+
+    // Get the index of the current note from the notes prefab array
     private int GetTargetNeckNoteIndex()
     {
         string targetNoteName = song.currentNote.noteName.ToUpper() + song.currentNote.noteOctave;
@@ -382,6 +454,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // FUCK IT SPAWNS IT ALL AS A LEFT HANDED GUITAR SHIT
     /// <summary>
     /// Spawns note on the strings on the backing
     /// </summary>

@@ -32,6 +32,9 @@ public class MappedSong
     // Current note thats been poped of map stack
     public SongMapping.MappedNote currentNote = new SongMapping.MappedNote();
 
+    // Last played note
+    public SongMapping.MappedNote lastNote = new SongMapping.MappedNote();
+
     public MappedSong(string s_name)
     {
         name = s_name;
@@ -45,11 +48,12 @@ public class MappedSong
     public void PlayNote()
     {
         currentNote = map.RemoveNoteFromMap();
-
+        
         // Adds the last popped note to the list tracking played notes
         SongMapping.MappedNote lastPlayedNote = new SongMapping.MappedNote();
         notesPlayed.Add(lastPlayedNote);
     }
+
 
 
     private void MapInnit()

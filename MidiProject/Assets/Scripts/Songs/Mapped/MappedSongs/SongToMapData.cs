@@ -32,7 +32,20 @@ public static class SongToMapData
         },
         { "Test" ,
             new SongTemplate(
-                "Test",
+                "Test",// Name
+                9,// Total number of notes
+                4,// 4/4 time
+                4,
+                new string[] { "e", "f", "e", "f", "e", "f" ,"f#","g","a",},
+                new int[] { 4, 4, 4, 4, 4, 4, 4, 4, 5 }, // Octave
+                new int[] { 4, 4, 4, 4, 4, 4, 4,4 ,2 } // Duration
+                )
+            // cube target is the previous timming but the current notes location
+            // the game starts when the player plays the first note
+        },
+        { "Test1" ,
+            new SongTemplate(
+                "Test1",
                 6,
                 4,
                 4,
@@ -56,38 +69,3 @@ public static class SongToMapData
         return null;
     }
 }
-
-
-// Name...Octave...Duration 
-// 4 is a quter note 8 is an eighteenth 16 is a sixteenth ext...
-// Negitive numbers stand for dotted notes, so -4 means a
-// quarter plus an eighteenth
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("d", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("c", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("a#", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("b", 2, 8);
-//map.MapNote("c", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("d", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("c", 3, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("e", 2, 8);
-//map.MapNote("a#", 2, -2);
-// 28 Notes but thers only 27 (im missing one ahhhhh)^^
