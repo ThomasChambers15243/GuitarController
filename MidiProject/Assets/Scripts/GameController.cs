@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
 
     // Mapped Song to be played
     private MappedSong song = null;
-    private string[] maps = new string[] { "AtDoomsGate", "CanonInD", "Test" };
+    private string[] maps = new string[] { "AtDoomsGate", "CanonInD", "Test", "Test1" };
 
     private NeckHolder neckHolder;
     private GameObject[] strings = new GameObject[36];
@@ -92,24 +92,23 @@ public class GameController : MonoBehaviour
                     // Instantiates mapped song and game mode                    
                     if (isPlayingMap == false)
                     {
-                        startMap = false;
+                        startMap = true;//= false;
                         LoadMap("Test");
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
-                        clock = 0;
+                        clock = beat;
                         isPlayingMap = true;
                         noteCount = 0;
-                        playerAccuracy = 0;
-                        song.PlayNote();
-                        
+                        playerAccuracy = 0;                        
                     }
+
                     // Countdown for game to start
-                    IEnumerator countdown = Countdown(3);
-                    StartCoroutine(countdown);
+                    //IEnumerator countdown = Countdown(3);
+                    //StartCoroutine(countdown);
                     // Starts game map
                     if (startMap)
                     {
-                        StopCoroutine(countdown);
+                        //StopCoroutine(countdown);
                         // Plays next note
                         if (clock >= beat)
                         {
@@ -124,6 +123,7 @@ public class GameController : MonoBehaviour
                             DestroyNoteCubes();
                             StopCubeNotesCoroutines();
                             // If the song is comleted, returns to the menu state
+                            noteCount += 1;
                             if (noteCount == song.GetLengthOfMap())
                             {
                                 // Change to game over screen
@@ -134,11 +134,9 @@ public class GameController : MonoBehaviour
                             }
                             // Get the next note, reset the clock and the reset the noteCubes
                             song.PlayNote();
-                            
                             clock -= beat;
                             beat = ParseNoteDuration();
                             HandleNoteCubes(GetTargetNeckNoteIndex());
-                            noteCount += 1;
                         }
                         // For testing, set voltage of keyboard input
                         SetPlayedNoteVoltage();
@@ -160,6 +158,7 @@ public class GameController : MonoBehaviour
                             }
                         }
                         clock += Time.deltaTime;
+
                         // Exit back to menu
                         if (Input.GetKeyDown(KeyCode.P))
                         {
@@ -170,9 +169,6 @@ public class GameController : MonoBehaviour
                         }
                     }
                     break;
-
-
-
 
                 case "SCORE":
                     Score();
@@ -273,7 +269,6 @@ public class GameController : MonoBehaviour
             inputVoltage = 0f;
             Debug.Log(inputVoltage);
         }   
-        
     }
 
 
@@ -356,9 +351,11 @@ public class GameController : MonoBehaviour
         {
             if (notes[i].name == targetNoteName)
             {
+                Debug.Log("This should be called");
                 return i;                
             }
         }
+        Debug.Log("THIS SHOULDNT BE CALLED");
         return -1;
     }
     private bool HasPlayerHitNote()
