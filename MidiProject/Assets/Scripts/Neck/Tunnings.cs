@@ -5,8 +5,8 @@ using UnityEngine;
 public static class Tunnings
 {
     // Notes
-
-    public static string[] allOctaveNotes = {"a", "a#", "b", "c", "c#", "d", "d#", "e", "f", "f#", "g", "g#"};
+    
+    public static string[] allOctaveNotes = {"c", "c#", "d", "d#", "e", "f", "f#", "g", "g#", "a", "a#", "b"};
 
     // Tunnings from thin string as 0th index to thick string as 5th index
 
