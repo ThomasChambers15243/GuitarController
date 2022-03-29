@@ -27,7 +27,7 @@ public class String
             Note note = new Note(Tunnings.allOctaveNotes[noteCount], tempOctave);
             notes[i] = note;
 
-            if (noteCount%11 == 0)
+            if (noteCount%11 == 0 && noteCount != 0)
             {
                 noteCount = 0;
                 tempOctave += 1;
