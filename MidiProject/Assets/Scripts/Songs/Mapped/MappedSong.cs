@@ -73,7 +73,7 @@ public class MappedSong
         {
             for(int i = 0; i < song.noteCount; i++)
             {
-                map.MapNote(song.nNames[i], song.nOctave[i], song.nDur[i]);
+                map.MapNote(song.nNames[i], song.nOctave[i], song.nDur[i], song.sIndex[i], song.nIndex[i]);
             }
         }
     }

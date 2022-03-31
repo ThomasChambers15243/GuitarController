@@ -12,6 +12,8 @@ public class SongMapping
         public string noteName { get; set; }
         public int noteOctave { get; set; }
         public float duration { get; set; }
+        public int sIndex { get; set; }
+        public int nIndex { get; set; }
     }
 
     // Check to see if the map is been finalized and completed.
@@ -35,14 +37,15 @@ public class SongMapping
     /// <param name="_noteName">String name of the note</param>
     /// <param name="_noteOctave">Int octave of the note</param>
     /// <param name="_duration">Duration of the note as in musical notation, not seconds</param>
-    public void MapNote(string _noteName, int _noteOctave, float _duration)
+    public void MapNote(string _noteName, int _noteOctave, float _duration, int _sIndex, int _nIndex)
     {
         // Create note and add attributes 
         MappedNote mNote = new MappedNote();
         mNote.noteName = _noteName;
         mNote.noteOctave = _noteOctave;
         mNote.duration = _duration;
-
+        mNote.sIndex = _sIndex;
+        mNote.nIndex = _nIndex;
         // Add note to map
         AddNoteToMap(mNote);
     }

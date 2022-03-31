@@ -495,13 +495,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824119606}
-  m_LocalRotation: {x: -0.00012964784, y: 0.93702704, z: -0.3492318, w: -0.0041826605}
-  m_LocalPosition: {x: -0.363, y: 8.451, z: 10.33}
+  m_LocalRotation: {x: 0.3492217, y: 0.011363186, z: -0.0028062838, w: 0.9369671}
+  m_LocalPosition: {x: -0.363, y: 6.47, z: -7.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 40.88, y: 180.587, z: 0.203}
+  m_LocalEulerAnglesHint: {x: 40.88, y: 1.465, z: 0.203}
 --- !u!1 &1268392964
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,7 +547,7 @@ MonoBehaviour:
     type: 3}
   gain: 1
   cubeSpawnDistance: 10
-  tempo: 50
+  tempo: 100
 --- !u!65 &1268392966
 BoxCollider:
   m_ObjectHideFlags: 0
