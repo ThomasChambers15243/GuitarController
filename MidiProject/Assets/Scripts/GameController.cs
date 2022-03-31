@@ -81,19 +81,13 @@ public class GameController : MonoBehaviour
                     FreePlay();
                     break;
 
-
-
-                    // TODO create timmings for holding notes,
-                    // have the note start when the blocks collide
-                    // Maybe have a quarter note as the base timer, run the
-                    // blocks of that and then reset based of the
-                    // base timer + note duration
                 case "MAPPED_SONG":
                     // Instantiates mapped song and game mode                    
                     if (isPlayingMap == false)
                     {
-                        startMap = true;//= false;
-                        LoadMap("Test");
+                        startMap = true;
+                        //LoadMap("EasyTest");
+                        LoadMap("GMajor");
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
                         clock = beat;
@@ -136,7 +130,7 @@ public class GameController : MonoBehaviour
                             song.PlayNote();
                             clock -= beat;
                             beat = ParseNoteDuration();
-                            HandleNoteCubes(GetTargetNeckNoteIndex());
+                            HandleNoteCubes(GetTargetNeckNoteIndex(song.currentNote.sIndex, 5-song.currentNote.nIndex));
                         }
                         // For testing, set voltage of keyboard input
                         SetPlayedNoteVoltage();
@@ -166,6 +160,7 @@ public class GameController : MonoBehaviour
                             StopCubeNotesCoroutines();
                             Debug.Log("End was called");
                             STATE = "MENU";
+                            isPlayingMap = false;
                         }
                     }
                     break;
@@ -237,37 +232,30 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             inputVoltage = Tunnings.voltageFromFret1[0];
-            Debug.Log(inputVoltage);
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
             inputVoltage = Tunnings.voltageFromFret1[1];
-            Debug.Log(inputVoltage);
         } 
         else if (Input.GetKeyDown(KeyCode.E))
         {
             inputVoltage = Tunnings.voltageFromFret1[2];
-            Debug.Log(inputVoltage);
         } 
         else if (Input.GetKeyDown(KeyCode.R))
         {
             inputVoltage = Tunnings.voltageFromFret1[3];
-            Debug.Log(inputVoltage);
         } 
         else if (Input.GetKeyDown(KeyCode.D))
         {
             inputVoltage = Tunnings.voltageFromFret1[4];
-            Debug.Log(inputVoltage);
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
             inputVoltage = Tunnings.voltageFromFret1[5];
-            Debug.Log(inputVoltage);
         }
         else if (Input.GetKeyDown(KeyCode.T))
         {   
             inputVoltage = 0f;
-            Debug.Log(inputVoltage);
         }   
     }
 
@@ -334,7 +322,8 @@ public class GameController : MonoBehaviour
     {
         int playedNoteIndex = 0;
         int pin = GetPlayedString();
-        int noteIndex = neckHolder.GetStrings()[pin].GetNoteIndex(inputVoltage);
+        // 5 minus for now as notes are all backwards...blame past Tom it wasn't me
+        int noteIndex = 5-(neckHolder.GetStrings()[pin].GetNoteIndex(inputVoltage));
 
         noteIndex += 1;
         playedNoteIndex = pin * 6;
@@ -342,9 +331,19 @@ public class GameController : MonoBehaviour
         playedNoteIndex += noteIndex;
         return playedNoteIndex;
     }
+    // plz work
+    private int GetTargetNeckNoteIndex(int sIndex, int nIndex)
+    {
+        int playedNoteIndex = 0;
+        nIndex += 1;
+        playedNoteIndex = sIndex * 6;
+        playedNoteIndex -= 1;
+        playedNoteIndex += nIndex;
+        return playedNoteIndex;
+    }
 
     // Get the index of the current note from the notes prefab array
-    private int GetTargetNeckNoteIndex()
+    private int GetTargetNeckNoteIndexOLD()
     {
         string targetNoteName = song.currentNote.noteName.ToUpper() + song.currentNote.noteOctave;
         for(int i = 0; i < notes.Length; i++)
@@ -360,8 +359,10 @@ public class GameController : MonoBehaviour
     }
     private bool HasPlayerHitNote()
     {
-        int targetNote = GetTargetNeckNoteIndex();
-        int playedNote = GetPlayedNoteIndex();
+        int targetNote = GetTargetNeckNoteIndex(song.currentNote.sIndex, song.currentNote.nIndex);
+        int playedNote = GetTargetNeckNoteIndex(GetPlayedString(), 5 - (neckHolder.GetStrings()[GetPlayedString()].GetNoteIndex(inputVoltage)));
+        // int targetNote = GetTargetNeckNoteIndexOLD();
+        // int playedNote = GetPlayedNoteIndex();
         if (targetNote == playedNote)
         {
             return true;
@@ -462,7 +463,7 @@ public class GameController : MonoBehaviour
         {    
             for (int j = 0; j < 6; j++)
             {
-                Note currentNote = neckHolder.GetStrings()[i].notes[j];
+                Note currentNote = neckHolder.GetStrings()[i].notes[5-j];
                 Quaternion q = new Quaternion(0, 0, 0, 1);
                 Vector3 spawn = new Vector3(spawnPosition.x + i * stringGapScalar, spawnPosition.y, spawnPosition.z + j * noteGapScalar);
                 notes[noteCounter] = Instantiate(notePrefab, spawn, q);
