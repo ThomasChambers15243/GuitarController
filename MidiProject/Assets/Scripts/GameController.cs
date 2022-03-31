@@ -86,7 +86,6 @@ public class GameController : MonoBehaviour
                     if (isPlayingMap == false)
                     {
                         startMap = true;
-                        //LoadMap("EasyTest");
                         LoadMap("GMajor");
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
@@ -109,11 +108,12 @@ public class GameController : MonoBehaviour
                             // Increameants score only if the player hit the note                        
                             if (hitNote)
                             {
-                                song.score += playerAccuracy;
+                                song.score += 1 + playerAccuracy;
                             }
                             // Reset all values for individual note
                             playerAccuracy = 0;
                             hitNote = false;
+                            ResetCubeMaterial();
                             DestroyNoteCubes();
                             StopCubeNotesCoroutines();
                             // If the song is comleted, returns to the menu state
@@ -156,6 +156,7 @@ public class GameController : MonoBehaviour
                         // Exit back to menu
                         if (Input.GetKeyDown(KeyCode.P))
                         {
+                            ResetCubeMaterial();
                             DestroyNoteCubes();
                             StopCubeNotesCoroutines();
                             Debug.Log("End was called");
@@ -182,7 +183,8 @@ public class GameController : MonoBehaviour
     }
 
     private void HandleNoteCubes(int targetCubeIndex)
-    {
+    {        
+        notes[targetCubeIndex].GetComponent<Renderer>().material = Resources.Load("Materials/Notes/RightNote", typeof(Material)) as Material;
         SpawnCubeNotes(cubeSpawnDistance, targetCubeIndex);
         MoveCubeNotesToNote(targetCubeIndex, (cubeSpawnDistance / beat));
     }
@@ -289,6 +291,11 @@ public class GameController : MonoBehaviour
             cubeNotesCoroutines[i] = MoveCube(cubeNotes[i], notes[noteIndex].transform.position, cubeSpeed);
             StartCoroutine(cubeNotesCoroutines[i]);
         }
+    }
+
+    private void ResetCubeMaterial()
+    {
+        notes[GetTargetNeckNoteIndex(song.currentNote.sIndex, 5 - song.currentNote.nIndex)].GetComponent<Renderer>().material = Resources.Load("Materials/Notes/NoteDefault", typeof(Material)) as Material;
     }
     private void DestroyNoteCubes()
     {
