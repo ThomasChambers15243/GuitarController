@@ -35,6 +35,10 @@ public class MappedSong
     // Last played note
     public SongMapping.MappedNote lastNote = new SongMapping.MappedNote();
 
+    /// <summary>
+    /// Constructor which loads in song data and innits the mapo
+    /// </summary>
+    /// <param name="s_name">Map name</param>
     public MappedSong(string s_name)
     {
         name = s_name;
@@ -45,6 +49,10 @@ public class MappedSong
         MapInnit();
     }
 
+    /// <summary>
+    /// Gets the next note from the map loads it as currentNote
+    /// and also adds it to the lastPlayedNote list
+    /// </summary>
     public void PlayNote()
     {
         currentNote = map.RemoveNoteFromMap();
@@ -54,8 +62,10 @@ public class MappedSong
         notesPlayed.Add(lastPlayedNote);
     }
 
-
-
+    /// <summary>
+    /// Creats a new map, loads the notes 
+    /// and locks the map as finalized
+    /// </summary>
     private void MapInnit()
     {
         map = new SongMapping();
@@ -65,7 +75,7 @@ public class MappedSong
 
 
     /// <summary>
-    /// Add all the notes the player will have to play
+    /// Adds all the notes the player will have to play
     /// </summary>
     private void MapNotes()
     {
@@ -79,7 +89,7 @@ public class MappedSong
     }
 
     /// <summary>
-    /// Formates text for all notes that have been played
+    /// Formats text for all notes that have been played
     /// </summary>
     /// <returns>String text</returns>
     public string NotesPlayed()
@@ -93,6 +103,10 @@ public class MappedSong
         return text;
     }
 
+    /// <summary>
+    /// Finds the length of the map
+    /// </summary>
+    /// <returns>The length of the mop</returns>
     public int GetLengthOfMap()
     {
         return lengthOfMap;
