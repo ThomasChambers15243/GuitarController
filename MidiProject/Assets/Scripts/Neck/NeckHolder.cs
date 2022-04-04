@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class NeckHolder
 {
-
-    
+    // Stores all strings
     private String[] strings = new String[6];
 
     /// <summary>
-    /// Constructor which fills the strings array with string object
+    /// Constructor which fills the strings array with string objects
     /// </summary>
     /// <param name="guitarTunning">String[] of tunnings for each string, from thin to thick string</param>
     public NeckHolder(string[] guitarTunning)
@@ -33,20 +32,21 @@ public class NeckHolder
             else
             {
                 guitarString.octave = 2;
-            }
+            }            
             guitarString.SetNotes();
             guitarString.SetVoltageRangeOfNotes();
             strings[i] = guitarString;            
         }
     }
 
-
+    /// <summary>Getter for string array</summary>
     /// <returns>Array of String objects</returns>
     public String[] GetStrings()
     {
         return strings;
     }
 
+    /// <summary>Gets the string index in the string array for the string number</summary>
     /// <param name="stringNumber"></param>
     /// <returns>String object at the specific number</returns>
     public String GetStringAtNumber(int stringNumber)
