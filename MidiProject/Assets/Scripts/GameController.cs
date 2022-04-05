@@ -94,6 +94,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        // Gets Arduino values as the first few values can be buggy as its connecting 
         for (int i = 0; i < 10; i++)
         {
             GetValues();
@@ -137,6 +138,7 @@ public class GameController : MonoBehaviour
                         playerScore = 0;
                     }
 
+                    // TODO Uncomment and add countdown back\\ 
                     // Countdown for game to start
                     //IEnumerator countdown = Countdown(3);
                     //StartCoroutine(countdown);
