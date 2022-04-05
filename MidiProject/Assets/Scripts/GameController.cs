@@ -669,9 +669,12 @@ public class GameController : MonoBehaviour
         {    
             for (int j = 0; j < 6; j++)
             {
+                // Create new note and create its location/rotation
                 Note currentNote = neckHolder.GetStrings()[i].notes[5-j];
                 Quaternion q = new Quaternion(0, 0, 0, 1);
                 Vector3 spawn = new Vector3(spawnPosition.x + i * stringGapScalar, spawnPosition.y, spawnPosition.z + j * noteGapScalar);
+
+                // Instantiate note prefab and add the created note to the prefab
                 notes[noteCounter] = Instantiate(notePrefab, spawn, q);
                 notes[noteCounter].name = currentNote.GetNameWithOctave();
                 notes[noteCounter].GetComponent<Transform>().SetParent(noteSpawner.transform);
@@ -683,58 +686,3 @@ public class GameController : MonoBehaviour
     }
 
 }
-
-// TESTING
-
-//// TESTING MOVEMEANT
-//public GameObject testCubeOne;
-//public GameObject testCubeTwo;
-//public GameObject testCubeTargetLocation;
-//IEnumerator currentMoveRoutine;
-//if (Input.GetKeyDown(KeyCode.E))
-//{
-//    if(currentMoveRoutine != null)
-//    {
-//        StopCoroutine(currentMoveRoutine);
-//    }
-//    currentMoveRoutine = MoveCube(testCubeOne, testCubeTargetLocation.transform.position);
-//    StartCoroutine(currentMoveRoutine);
-//}
-//if (Input.GetKeyDown(KeyCode.Q))
-//{
-//    StopCoroutine(currentMoveRoutine);
-//}
-
-//ARCHIVE cus im too scared to delete this code right now
-//// TODO NEXT \\
-//private int GetPlayedNoteIndex()
-//{
-//    int playedNoteIndex = 0;
-//    int pin = GetPlayedString();
-//    // 5 minus for now as notes are all backwards...blame past Tom it wasn't me
-//    int noteIndex = 5-(neckHolder.GetStrings()[pin].GetNoteIndex(inputVoltage));
-
-//    noteIndex += 1;
-//    playedNoteIndex = pin * 6;
-//    playedNoteIndex -= 1;
-//    playedNoteIndex += noteIndex;
-//    return playedNoteIndex;
-//}
-
-//// Get the index of the current note from the notes prefab array
-//private int GetTargetNeckNoteIndexOLD()
-//{
-//    string targetNoteName = song.currentNote.noteName.ToUpper() + song.currentNote.noteOctave;
-//    for(int i = 0; i < notes.Length; i++)
-//    {
-//        if (notes[i].name == targetNoteName)
-//        {
-//            Debug.Log("This should be called");
-//            return i;                
-//        }
-//    }
-//    Debug.Log("THIS SHOULDNT BE CALLED");
-//    return -1;
-//}
-// int targetNote = GetTargetNeckNoteIndexOLD();
-// int playedNote = GetPlayedNoteIndex();
