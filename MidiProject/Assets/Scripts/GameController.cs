@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Uduino;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class GameController : MonoBehaviour
 {
@@ -121,9 +122,9 @@ public class GameController : MonoBehaviour
                     if (isPlayingMap == false)
                     {
                         startMap = true;
-                        //LoadMap("EasyTest");
+                        LoadMap("EasyTest");
                         //LoadMap("GMajor");
-                        LoadMap("EasyTest2");
+                        //LoadMap("EasyTest2");
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
                         // Set clock as beat so that the next
@@ -228,33 +229,34 @@ public class GameController : MonoBehaviour
 
     public void HanderArduinoInput()
     {
-        if (valuesFound)
-        {
-            valuesFound = false;
-            readingCounter = 0;
-            analogValues = new float[6] { 0, 0, 0, 0, 0, 0 };
-            cumValues = new float[6] { 0, 0, 0, 0, 0, 0 };
-        }
-        while (readingCounter < 5)
-        {
-            float[] tempV = new float[6];
-            tempV = GetValues();
-            for (int i = 0; i < 6; i++)
-            {
-                cumValues[i] += tempV[i];
-            }
-            readingCounter += 1;
-        }
-        valuesFound = true;
+        analogValues = GetValues();
+        //if (valuesFound)
+        //{
+        //    valuesFound = false;
+        //    readingCounter = 0;
+        //    analogValues = new float[6] { 0, 0, 0, 0, 0, 0 };
+        //    cumValues = new float[6] { 0, 0, 0, 0, 0, 0 };
+        //}
+        //while (readingCounter < 5)
+        //{
+        //    float[] tempV = new float[6];
+        //    tempV = GetValues();
+        //    for (int i = 0; i < 6; i++)
+        //    {
+        //        cumValues[i] += tempV[i];
+        //    }
+        //    readingCounter += 1;
+        //}
+        //valuesFound = true;
 
-        if (!Array.Exists(cumValues, x => x == 0f))
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                analogValues[i] = cumValues[i] / readingCounter;
-                //Debug.Log(analogValues[i]);
-            }
-        }
+        //if (!Array.Exists(cumValues, x => x == 0f))
+        //{
+        //    for (int i = 0; i < 6; i++)
+        //    {
+        //        analogValues[i] = cumValues[i] / readingCounter;
+        //        //Debug.Log(analogValues[i]);
+        //    }
+        //}
     }
 
     /// <summary>
@@ -512,25 +514,25 @@ public class GameController : MonoBehaviour
             //Debug.Log(analogValues[i]);
             if (tempIndex != -1)
             {
-                Debug.Log("Note found at: " + analogValues[i]);
+                //Debug.Log("Note found at: " + analogValues[i]);
                 noteIndex = tempIndex;
                 pin = i;
+                if( noteIndex != -1)
+                {
+                    playedNote = GetTargetNeckNoteIndex(pin,(5 - noteIndex));
+                }
+                else
+                {
+                    return false;
+                }
+        
+                if (targetNote == playedNote)
+                {            
+                    Debug.Log("Correct note played at index of " + playedNote + " and of name " + notes[playedNote].name + " with a voltage of " + analogValues[i]);
+                    return true;
+                }
                 break;
             }
-        }
-        if( noteIndex != -1)
-        {
-            playedNote = GetTargetNeckNoteIndex(pin,(5 - noteIndex));
-        }
-        else
-        {
-            return false;
-        }
-        
-        if (targetNote == playedNote)
-        {            
-            Debug.Log("Index is " + playedNote + " of name " + notes[playedNote].name);
-            return true;
         }
         return false;
     }
@@ -602,10 +604,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // TODO currently works of note name, not index,
-    // probally a good idea to have too methods,
-    // one that works with raw notes[36] index and 
-    // one that works with names, like this one does
     /// <summary>
     /// Played the given Note object and turns the others off
     /// </summary>
