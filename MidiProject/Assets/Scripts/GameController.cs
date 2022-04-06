@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Uduino;
-using UnityEngine.UI;
-using System.Runtime.InteropServices;
 
 public class GameController : MonoBehaviour
 {
