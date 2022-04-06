@@ -72,3 +72,8 @@ debug.txt
 .ycm_extra_conf.pyc
 .ropeproject
 
+MidiProject/Library
+MidiProject/Temp/UnityLockfile
+MidiProject/Temp
+MidiProject/Logs
+MidiProject/Library
