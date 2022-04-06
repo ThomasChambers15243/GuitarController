@@ -437,7 +437,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // ???????????????????
     /// <summary>
     /// Resets the cube material to its default
     /// </summary>
