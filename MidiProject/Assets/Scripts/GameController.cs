@@ -107,7 +107,7 @@ public class GameController : MonoBehaviour
             switch (activeState)
             {
                 case STATE.MENU:
-                    Menu();
+                    Menus();
                     break;
 
                 case STATE.FREE_PLAY:
