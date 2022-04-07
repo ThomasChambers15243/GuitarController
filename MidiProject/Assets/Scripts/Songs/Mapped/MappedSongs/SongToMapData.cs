@@ -38,21 +38,6 @@ public static class SongToMapData
                 new int[] {0,1,2,3,4,5,4,3,2,1,0,1,2,3},    // 14 notes
                 "Songs/Mine/Mine Medium (100bpm)"
                 )
-        },
-        {
-            "EasyTest2",
-            new SongTemplate(
-                "EasyTest2",
-                12,
-                4,
-                4,
-                new string[] {"n","n","n","n","n","n","n","n","n","n","n","n","n","n", }, // 14 notes
-                new int[] {2,2,2,2,2,2,2,2,2,2,2,2,2,2},   // 14 octaves
-                new int[] {4,4,4,4,4,4,4,4,4,4,4,4,4,4}, // 14 durations
-                new int[] {3,3,3,3,3,3,3,3,3,3,3,3,3,3},   // 14 strings
-                new int[] {0,1,2,3,4,5,4,3,2,1,0,1,2,3},    // 14 notes
-                ""
-                )
         }
     };
 
