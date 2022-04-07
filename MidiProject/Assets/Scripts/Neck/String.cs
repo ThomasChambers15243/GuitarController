@@ -47,9 +47,7 @@ public class String
     public void SetVoltageRangeOfNotes()
     {
         for(int i = 0; i < 6; i++)
-        {            
-            //TODO change back to voltage from fret as this is for board testing
-            //notes[i].SetVoltage(Tunnings.voltageFromFret1[i]);
+        { 
             notes[i].SetVoltage(Tunnings.voltageFromBreadBoard[i]);
         }
     }

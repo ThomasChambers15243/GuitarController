@@ -138,15 +138,14 @@ public class GameController : MonoBehaviour
                         audioSource.Play();
                     }
 
-                    // TODO Uncomment and add countdown back\\ 
                     // Countdown for game to start
-                    //IEnumerator countdown = Countdown(3);
-                    //StartCoroutine(countdown);
+                    IEnumerator countdown = Countdown(3);
+                    StartCoroutine(countdown);
 
                     // Starts game map
                     if (startMap)
                     {
-                        //StopCoroutine(countdown);
+                        StopCoroutine(countdown);
                         // Plays next note
                         if (clock >= beat)
                         {
@@ -176,9 +175,7 @@ public class GameController : MonoBehaviour
                             clock -= beat;
                             beat = ParseNoteDuration();
                             HandleNoteCubes(GetTargetNeckNoteIndex(song.currentNote.sIndex, 5-song.currentNote.nIndex));
-                        }
-                        // For testing, set voltage of keyboard input
-                        //SetPlayedNoteVoltage();                       
+                        }               
                         HanderArduinoInput();
                         if (!hitNote)
                         {
@@ -213,7 +210,7 @@ public class GameController : MonoBehaviour
                         }
                     }
                     break;
-                // TODO \\
+
                 case STATE.SCORE:
                     Score();
                     break;
@@ -337,39 +334,6 @@ public class GameController : MonoBehaviour
             case -16f : return (quarterNoteLength / 4) + (quarterNoteLength / 8);
         }
         return quarterNoteLength;
-    }
-
-    // Testing func, will set voltage of string on keyboard input
-    private void SetPlayedNoteVoltage()
-    {        
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            inputVoltage = Tunnings.voltageFromFret1[0];
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            inputVoltage = Tunnings.voltageFromFret1[1];
-        } 
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            inputVoltage = Tunnings.voltageFromFret1[2];
-        } 
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            inputVoltage = Tunnings.voltageFromFret1[3];
-        } 
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            inputVoltage = Tunnings.voltageFromFret1[4];
-        }
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            inputVoltage = Tunnings.voltageFromFret1[5];
-        }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {   
-            inputVoltage = 0f;
-        }   
     }
 
 
@@ -510,7 +474,6 @@ public class GameController : MonoBehaviour
         return false;
     }
  
-    // TODO \\
     /// <summary>
     /// Loads the menu scene
     /// </summary>
@@ -520,15 +483,11 @@ public class GameController : MonoBehaviour
         {
             activeState = STATE.MAPPED_SONG;
         }
-        // Open's game menu and changes state to either
-        // Free play, Mapped Song or Score
     }
 
-    // TODO \\
     // Loads the Score scene
     public void Score()
     {
-        // Will display the score board
         Debug.Log("SCORE: Score is " + playerScore);
         activeState = STATE.MENU;
     }
@@ -549,9 +508,16 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void FreePlay()
     {
-        int pin = GetPlayedString();
-        Note playedNote = neckHolder.GetStrings()[pin].GetNote(inputVoltage);
-        PlayNote(playedNote);
+        for (int i = 0; i < 6; i++)
+        {
+            int tempIndex = neckHolder.GetStrings()[i].GetNoteIndex(analogValues[i]);
+            if (tempIndex != -1)
+            {
+                Note playedNote = neckHolder.GetStrings()[i].GetNote(analogValues[i]);
+                PlayNote(playedNote);
+            }
+        }
+
         // Exit back to menu
         if (Input.GetKeyDown(KeyCode.P))
         {
