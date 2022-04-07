@@ -508,12 +508,9 @@ public class GameController : MonoBehaviour
         int playedNote;
         for (int i = 0; i < 6; i++)
         {
-            // 0 should be i
             int tempIndex = neckHolder.GetStrings()[i].GetNoteIndex(analogValues[i]);
-            //Debug.Log(analogValues[i]);
             if (tempIndex != -1)
             {
-                //Debug.Log("Note found at: " + analogValues[i]);
                 noteIndex = tempIndex;
                 pin = i;
                 if( noteIndex != -1)
@@ -540,7 +537,7 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// Loads the menu scene
     /// </summary>
-    public void Menu()
+    public void Menus()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
