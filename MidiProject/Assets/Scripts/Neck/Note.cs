@@ -109,11 +109,12 @@ public class Note
     public void SetVoltage(float desiredVoltage)
     {
         perfectVoltage = desiredVoltage;
-        // Calculates one percent of th voltage and
+        // Calculates ten percent of the voltage and
         // sets min and max range of the notes voltage
-        float onePercent = (desiredVoltage / 100);
-        minVoltage = desiredVoltage - onePercent;
-        maxVoltage = desiredVoltage + onePercent;
+        float tenPercent = (desiredVoltage / 100);
+        tenPercent *= 10;
+        minVoltage = desiredVoltage - tenPercent;
+        maxVoltage = desiredVoltage + tenPercent;
     }
     
     /// <summary>

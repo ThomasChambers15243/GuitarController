@@ -16,7 +16,8 @@ public static class Tunnings
 
     // Voltage from the first fret to the 6th fret
     public static float[] voltageFromFret1 = { 4.64f, 4.34f, 3.95f, 3.57f, 3.23f, 2.85f };
-    public static float[] voltageFromBreadBoard = {4.43f,3.86f,3.31f, 2.76f, 2.19f,1.62f };
+    public static float[] voltageFromBreadBoard = { 3.89f,3.3f,2.61f,2.14f,1.5f, 0.7f};
+    public static float[] voltageFromBreadBoarda = {4.43f,3.86f,3.31f, 2.76f, 2.19f,1.62f };
     // Voltage from breaboard voltage ciruit
     public static float[] voltageFromBreadBoardm = { 4.44f, 3.87f, 3.31f, 2.74f, 2.18f, 1.62f };
 

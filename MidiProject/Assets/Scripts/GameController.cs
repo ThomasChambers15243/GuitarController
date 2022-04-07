@@ -179,7 +179,10 @@ public class GameController : MonoBehaviour
                         // For testing, set voltage of keyboard input
                         //SetPlayedNoteVoltage();                       
                         HanderArduinoInput();
-                        hitNote = HasPlayerHitNote();
+                        if (!hitNote)
+                        {
+                            hitNote = HasPlayerHitNote();
+                        }
 
                         // Check to see how close to perfect you are
                         // and gives you a bonus if your close
@@ -205,6 +208,7 @@ public class GameController : MonoBehaviour
                             Debug.Log("End was called");
                             activeState = STATE.MENU;
                             isPlayingMap = false;
+                            audioSource.Stop();
                         }
                     }
                     break;
@@ -215,6 +219,7 @@ public class GameController : MonoBehaviour
 
                 default:
                     // Goes back to menu 
+                    audioSource.Stop();
                     activeState = STATE.MENU;
                     break;
             }
