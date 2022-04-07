@@ -20,7 +20,8 @@ public static class SongToMapData
                 new int[] {2,2,2,2,3,3,3,3,3,3}, // 10 octaves
                 new int[] {4,4,4,4,4,4,4,4,4,4}, // 10 durations
                 new int[] {5,5,5,4,4,4,3,3,3,3}, // 10 strings
-                new int[] {2,2,4,1,2,4,1,3,4,4}  // 10 notes
+                new int[] {2,2,4,1,2,4,1,3,4,4},  // 10 notes
+                ""
                 )
         },
         {
@@ -34,7 +35,8 @@ public static class SongToMapData
                 new int[] {2,2,2,2,2,2,2,2,2,2,2,2,2,2},   // 14 octaves
                 new int[] {4,4,4,4,4,4,4,4,4,4,4,4,4,4}, // 14 durations
                 new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0},   // 14 strings
-                new int[] {0,1,2,3,4,5,4,3,2,1,0,1,2,3}    // 14 notes
+                new int[] {0,1,2,3,4,5,4,3,2,1,0,1,2,3},    // 14 notes
+                "Songs/Mine/Mine Medium (100bpm)"
                 )
         },
         {
@@ -48,7 +50,8 @@ public static class SongToMapData
                 new int[] {2,2,2,2,2,2,2,2,2,2,2,2,2,2},   // 14 octaves
                 new int[] {4,4,4,4,4,4,4,4,4,4,4,4,4,4}, // 14 durations
                 new int[] {3,3,3,3,3,3,3,3,3,3,3,3,3,3},   // 14 strings
-                new int[] {0,1,2,3,4,5,4,3,2,1,0,1,2,3}    // 14 notes
+                new int[] {0,1,2,3,4,5,4,3,2,1,0,1,2,3},    // 14 notes
+                ""
                 )
         }
     };

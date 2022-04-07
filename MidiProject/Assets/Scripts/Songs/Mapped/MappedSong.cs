@@ -18,6 +18,9 @@ public class MappedSong
     // Name of Map
     public string name{get;}
 
+    // File path to mp3 of song
+    public string sFilePath;
+
     // Time Signiture of map e.g 4/4
     public int timesSigTop;
     public int timesSigBot;
@@ -46,6 +49,7 @@ public class MappedSong
         lengthOfMap = song.noteCount;
         timesSigTop = song.timeSigTop;
         timesSigBot = song.timeSigBot;
+        sFilePath = song.sFilePath;
         MapInnit();
     }
 

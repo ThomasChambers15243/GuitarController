@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     // Gaps between strings and notes
     public float stringGapScalar;
     public float noteGapScalar;
+    public AudioSource audioSource;
     // WILL BE VOLTAGE FROM GUITAR BUT FOR NOW ITS FROM ME
     public float testingInputVoltage;
     private float inputVoltage = 0;    
@@ -121,7 +122,7 @@ public class GameController : MonoBehaviour
                     if (isPlayingMap == false)
                     {
                         startMap = true;
-                        LoadMap("EasyTest");
+                        LoadMap("EasyTest");                        
                         //LoadMap("GMajor");
                         //LoadMap("EasyTest2");
                         quarterNoteLength = 60f / tempo;
@@ -134,6 +135,8 @@ public class GameController : MonoBehaviour
                         noteCount = 0;
                         playerAccuracy = 0;
                         playerScore = 0;
+                        audioSource.clip = Resources.Load<AudioClip>(song.sFilePath);
+                        audioSource.Play();
                     }
 
                     // TODO Uncomment and add countdown back\\ 

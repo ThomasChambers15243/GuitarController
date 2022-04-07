@@ -17,9 +17,10 @@ public class SongTemplate
     public int[] nDur;
     public int[] sIndex;
     public int[] nIndex;
-    
+    public string sFilePath;
+
     public SongTemplate(string _songName, int _noteCount, int _timeSigTop, int _timeSigBot,
-        string[] _nNames, int[] _nOctave, int[] _nDur, int[] _sIndex, int[] _nIndex)
+        string[] _nNames, int[] _nOctave, int[] _nDur, int[] _sIndex, int[] _nIndex, string _sFilePath)
     {        
         songName = _songName;
         noteCount = _noteCount;
@@ -30,5 +31,6 @@ public class SongTemplate
         nDur = _nDur;
         sIndex = _sIndex;
         nIndex = _nIndex;
+        sFilePath = _sFilePath;
     }
 }
