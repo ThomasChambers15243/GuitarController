@@ -122,9 +122,7 @@ public class GameController : MonoBehaviour
                     if (isPlayingMap == false)
                     {
                         startMap = true;
-                        LoadMap("EasyTest");                        
-                        //LoadMap("GMajor");
-                        //LoadMap("EasyTest2");
+                        LoadMap("EasyTest");
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
                         // Set clock as beat so that the next
