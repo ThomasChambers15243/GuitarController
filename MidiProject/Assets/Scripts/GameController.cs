@@ -122,7 +122,8 @@ public class GameController : MonoBehaviour
                     if (isPlayingMap == false)
                     {
                         startMap = true;
-                        LoadMap("EasyTest");
+                        LoadMap("Cannon");
+                        //LoadMap("EasyTest");
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
                         // Set clock as beat so that the next
@@ -232,37 +233,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Gets the averaged values of the analogue 
+    /// pins and sets them to analogValues
+    /// </summary>
     public void HanderArduinoInput()
     {
         analogValues = GetValues();
-        //if (valuesFound)
-        //{
-        //    valuesFound = false;
-        //    readingCounter = 0;
-        //    analogValues = new float[6] { 0, 0, 0, 0, 0, 0 };
-        //    cumValues = new float[6] { 0, 0, 0, 0, 0, 0 };
-        //}
-        //while (readingCounter < 5)
-        //{
-        //    float[] tempV = new float[6];
-        //    tempV = GetValues();
-        //    for (int i = 0; i < 6; i++)
-        //    {
-        //        cumValues[i] += tempV[i];
-        //    }
-        //    readingCounter += 1;
-        //}
-        //valuesFound = true;
-
-        //if (!Array.Exists(cumValues, x => x == 0f))
-        //{
-        //    for (int i = 0; i < 6; i++)
-        //    {
-        //        analogValues[i] = cumValues[i] / readingCounter;
-        //        //Debug.Log(analogValues[i]);
-        //    }
-        //}
     }
 
     /// <summary>
@@ -284,8 +261,7 @@ public class GameController : MonoBehaviour
 
         int sensorValueA2 = manager.analogRead(AnalogPin.A2);
         float voltageA2 = sensorValueA2 * scalar;
-        temp[2] = voltageA2;
-
+        temp[2] = voltageA2;        
         int sensorValueA3 = manager.analogRead(AnalogPin.A3);
         float voltageA3 = sensorValueA3 * scalar;
         temp[3] = voltageA3;
@@ -297,11 +273,6 @@ public class GameController : MonoBehaviour
         int sensorValueA5 = manager.analogRead(AnalogPin.A5);
         float voltageA5 = sensorValueA5 * scalar;
         temp[5] = voltageA5;
-
-        //for (int i = 0; i < 6; i++)
-        //{
-        //    Debug.Log(temp[i]);
-        //}
 
         return temp;
     }

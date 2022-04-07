@@ -35,9 +35,6 @@ public class MappedSong
     // Current note thats been poped of map stack
     public SongMapping.MappedNote currentNote = new SongMapping.MappedNote();
 
-    // Last played note
-    public SongMapping.MappedNote lastNote = new SongMapping.MappedNote();
-
     /// <summary>
     /// Constructor which loads in song data and innits the mapo
     /// </summary>
@@ -87,24 +84,9 @@ public class MappedSong
         {
             for(int i = 0; i < song.noteCount; i++)
             {
-                map.MapNote(song.nNames[i], song.nOctave[i], song.nDur[i], song.sIndex[i], song.nIndex[i]);
+                map.MapNote(song.nDur[i], song.sIndex[i], song.nIndex[i]);
             }
         }
-    }
-
-    /// <summary>
-    /// Formats text for all notes that have been played
-    /// </summary>
-    /// <returns>String text</returns>
-    public string NotesPlayed()
-    {
-        string text = "Notes played are: \n";
-        foreach (SongMapping.MappedNote n in notesPlayed)
-        {
-            text += n.noteName;
-            text += "\n";
-        }
-        return text;
     }
 
     /// <summary>

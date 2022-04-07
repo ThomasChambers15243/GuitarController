@@ -51,11 +51,7 @@ MonoBehaviour:
   presentExtentionsMap:
     keys:
     - UduinoDevice_DesktopSerial
-    - UduinoDevice_DesktopBluetoothLE
-    - UduinoDevice_AndroidBluetoothLE
-    - UduinoDevice_AndroidSerial
-    - UduinoDevice_Wifi
-    values: 0101010101
+    values: 01
   ManagerState: 0
   debugLevel: 0
   baudRate: 9600
