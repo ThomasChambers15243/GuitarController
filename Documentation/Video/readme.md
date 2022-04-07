@@ -1,0 +1,1 @@
+GameWorking Video shows logs of the game regersting input and scoreing it with points relitive to the timming of the note played. The mp3 of teh songs plays along side of the short map for the player to play along too.
