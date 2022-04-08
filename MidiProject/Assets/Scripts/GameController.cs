@@ -2,22 +2,24 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Uduino;
+using UnityEditor.UI;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     #region variables
+
     // Spawning Variables
     public GameObject stringSpawner;
     public GameObject notePrefab;
     public GameObject stringPrefab;
     public GameObject noteSpawner;
-    // Gaps between strings and notes
+    private GameObject[] strings = new GameObject[36];
+    private GameObject[] notes = new GameObject[36];
+    private NeckHolder neckHolder;
     public float stringGapScalar;
-    public float noteGapScalar;
-    public AudioSource audioSource;
-    // WILL BE VOLTAGE FROM GUITAR BUT FOR NOW ITS FROM ME
-    public float testingInputVoltage;
-    private float inputVoltage = 0;    
+    public float noteGapScalar;    
+
 
     // State machine
     enum STATE
@@ -28,42 +30,40 @@ public class GameController : MonoBehaviour
     
     // Mapped Song to be played
     private MappedSong song = null;
-    private string[] maps = new string[] { "AtDoomsGate", "CanonInD", "Test", "Test1" };
-
-    // All note and string perfabs
-    private NeckHolder neckHolder;
-    private GameObject[] strings = new GameObject[36];
-    private GameObject[] notes = new GameObject[36];
+    public AudioSource audioSource;
     private double gain = 0;
 
-    // Moveing Note Signals
+    // Moveing Note Data
     public GameObject cubeNote;
     private GameObject[] cubeNotes = new GameObject[4];
+    public int cubeSpawnDistance = 10;
+    private IEnumerator[] cubeNotesCoroutines = new IEnumerator[4];
 
     // Song Game Loop Data
-    // Distance cubes spawns from the target note 
-    // before they move in
     private float clock;
     private float beat;
     private float quarterNoteLength;
     private int noteCount;
-    public int cubeSpawnDistance = 10;
     public int tempo = 60;
+
+    // Bool Flags for game flow
     private bool startMap = false;
     private bool hitNote = false;
     private bool isPlayingMap = false;
-    private IEnumerator[] cubeNotesCoroutines = new IEnumerator[4];
-    // Score vars
-    private int playerScore = 0;
-    private int playerAccuracy = 0;
 
     // Uduino Data
     private UduinoManager manager;
     private float scalar;
     public float[] analogValues = new float[6];
-    private float[] cumValues = new float[6];
-    private bool valuesFound = true;
-    private int readingCounter;
+
+    // Score vars
+    private int playerScore = 0;
+    private int playerAccuracy = 0;
+    // Score UI values
+    private string topScoreText;
+    public Text topScore;
+    private string currentScoreText;
+    public Text currentScore;
 
     #endregion
     private void Awake()
@@ -89,6 +89,9 @@ public class GameController : MonoBehaviour
         // reading to find the actual voltage reading
         // at the pin where 0.0 =< v <= 5.0
         scalar = (5f / 1023f);
+
+        // Innit score
+        SetScore(0, 0);
     }
 
     private void Start()
@@ -112,7 +115,7 @@ public class GameController : MonoBehaviour
                     break;
 
                 case STATE.FREE_PLAY:
-                    FreePlay();
+                    FreePlay();                    
                     break;
 
                 case STATE.MAPPED_SONG:
@@ -123,9 +126,10 @@ public class GameController : MonoBehaviour
                     {
                         startMap = true;
                         LoadMap("Cannon");
-                        //LoadMap("EasyTest");
+
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
+
                         // Set clock as beat so that the next
                         // condition is true and the first note
                         // is immediately ran
@@ -152,7 +156,8 @@ public class GameController : MonoBehaviour
                             // Increameants score only if the player hit the note                        
                             if (hitNote)
                             {
-                                song.score += 1 + playerAccuracy;
+                                playerScore += 1 + playerAccuracy;
+                                UpdateCurrentScore();
                             }
                             // Reset all values for individual note
                             playerAccuracy = 0;
@@ -167,7 +172,6 @@ public class GameController : MonoBehaviour
                                 // Change state to leave map
                                 activeState = STATE.SCORE;
                                 isPlayingMap = false;
-                                playerScore = song.score;
                                 break;
                             }
                             // Get the next note, reset the clock and the reset the noteCubes
@@ -336,6 +340,19 @@ public class GameController : MonoBehaviour
         return quarterNoteLength;
     }
 
+    /// <summary>
+    /// Sets the top score and current score text as the args
+    /// </summary>
+    /// <param name="currentScoreValue">The players current score</param>
+    /// <param name="topScoreValue">The players top score so far</param>
+    private void SetScore(int currentScoreValue, int topScoreValue)
+    {
+        currentScoreText = currentScoreValue.ToString();
+        topScoreText = topScoreValue.ToString();
+
+        currentScore.text = currentScoreText;
+        topScore.text = topScoreText;
+    }
 
     /// <summary>
     /// Spawns 4 cube notes in at the given distance around the target note
@@ -386,7 +403,16 @@ public class GameController : MonoBehaviour
         ChangeMaterialTo(notes[GetTargetNeckNoteIndex(song.currentNote.sIndex, 5 - song.currentNote.nIndex)], "Materials/Notes/NoteDefault");
     }
 
-    // Destroys all currently spawned note cubes inside the cubeNotes array
+    private IEnumerator ResetACubeMaterialAfterTime(int waitTime, int cubeIndex)
+    {
+        yield return new WaitForSeconds(waitTime);
+        ChangeMaterialTo(notes[cubeIndex], "Materials/Notes/NoteDefault");
+        yield break;
+    }
+
+    /// <summary>
+    /// Destroys all currently spawned note cubes inside the cubeNotes array
+    /// </summary>
     private void DestroyNoteCubes()
     {
         // Destroy all cubeNote Cubes to clear array;
@@ -483,12 +509,36 @@ public class GameController : MonoBehaviour
         {
             activeState = STATE.MAPPED_SONG;
         }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            activeState = STATE.FREE_PLAY;
+        }
     }
 
-    // Loads the Score scene
+    /// <summary>
+    /// Updates the ui showing the current score to the players current score
+    /// </summary>
+    private void UpdateCurrentScore()
+    {        
+        currentScoreText = playerScore.ToString();
+        currentScore.text = currentScoreText;
+    }
+
+    /// <summary>
+    /// Handles the score scene
+    /// </summary>
     public void Score()
     {
         Debug.Log("SCORE: Score is " + playerScore);
+        int currentTopScore = Int32.Parse(topScore.text);
+        if (currentTopScore < playerScore)
+        {
+            SetScore(playerScore, playerScore);
+        }
+        else
+        {
+            SetScore(playerScore, currentTopScore);
+        }
         activeState = STATE.MENU;
     }
 
@@ -502,7 +552,7 @@ public class GameController : MonoBehaviour
         song = new MappedSong(_name);
     }
 
-    // TODO - OUT OF DATE, DON'T TRUST \\
+    
     /// <summary>
     /// Plays FreePlay mode
     /// </summary>
@@ -510,19 +560,27 @@ public class GameController : MonoBehaviour
     {
         for (int i = 0; i < 6; i++)
         {
-            int tempIndex = neckHolder.GetStrings()[i].GetNoteIndex(analogValues[i]);
+            int tempIndex = neckHolder.GetStrings()[i].GetNoteIndex(analogValues[i]);           
+            // If there is a played note, play it
             if (tempIndex != -1)
             {
+                int notesIndex = GetTargetNeckNoteIndex(i, tempIndex);
                 Note playedNote = neckHolder.GetStrings()[i].GetNote(analogValues[i]);
+                Debug.Log("Played Note's name is " + playedNote.GetName());
+                // Plays the generated note
                 PlayNote(playedNote);
+                // Change the material of the playted note to a new material               
+                ChangeMaterialTo(notes[notesIndex], "Materials/Notes/PlayedNote");
+                // Start the coroutine to change it back to its default after 1 second
+                StartCoroutine(ResetACubeMaterialAfterTime(1, notesIndex));
+
             }
         }
-
         // Exit back to menu
         if (Input.GetKeyDown(KeyCode.P))
         {
             activeState = STATE.MENU;
-        }
+        }        
     }
 
     /// <summary>
@@ -560,17 +618,6 @@ public class GameController : MonoBehaviour
                 note.GetComponent<GenerateNote>().playEffect = false;
             }
         }
-    }
-
-    // TODO This may be absolutly pointless idk yet
-    /// <summary>
-    /// Returns the index of the string that was played relitive to the input pin
-    /// Pin A0 == string 0
-    /// </summary>
-    /// <returns>Index of string played</returns>
-    private int GetPlayedString()
-    {
-        return 0;
     }
 
     /// <summary>

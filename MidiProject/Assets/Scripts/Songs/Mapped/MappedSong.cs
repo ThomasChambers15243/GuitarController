@@ -25,9 +25,6 @@ public class MappedSong
     public int timesSigTop;
     public int timesSigBot;
 
-    // Score of map
-    public int score = 0;
-
     // Collection of note that have been played, regardless of whether
     // they were hit or missed
     public List<SongMapping.MappedNote> notesPlayed = new List<SongMapping.MappedNote>();
