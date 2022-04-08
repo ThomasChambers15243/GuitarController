@@ -90,8 +90,6 @@ public class GameController : MonoBehaviour
         // at the pin where 0.0 =< v <= 5.0
         scalar = (5f / 1023f);
 
-        // Innit score
-        SetScore(0, 0);
     }
 
     private void Start()
@@ -126,7 +124,8 @@ public class GameController : MonoBehaviour
                     {
                         startMap = true;
                         LoadMap("Cannon");
-
+                        // Innit score
+                        SetScore(0, Int32.Parse(topScore.text));
                         quarterNoteLength = 60f / tempo;
                         beat = quarterNoteLength;
 
@@ -511,6 +510,7 @@ public class GameController : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
+            Debug.Log("f pressed");
             activeState = STATE.FREE_PLAY;
         }
     }
