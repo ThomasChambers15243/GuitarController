@@ -382,12 +382,6 @@ public class GameController : MonoBehaviour
         ChangeMaterialTo(notes[GetTargetNeckNoteIndex(song.currentNote.sIndex, 5 - song.currentNote.nIndex)], "Materials/Notes/NoteDefault");
     }
 
-    private IEnumerator ResetACubeMaterialAfterTime(int waitTime, int cubeIndex)
-    {
-        yield return new WaitForSeconds(waitTime);
-        ChangeMaterialTo(notes[cubeIndex], "Materials/Notes/NoteDefault");
-        yield break;
-    }
 
     /// <summary>
     /// Destroys all currently spawned note cubes inside the cubeNotes array
@@ -550,11 +544,6 @@ public class GameController : MonoBehaviour
                 Debug.Log("Played Note's name is " + playedNote.GetName());
                 // Plays the generated note
                 PlayNote(playedNote);
-                // Change the material of the playted note to a new material               
-                ChangeMaterialTo(notes[notesIndex], "Materials/Notes/PlayedNote");
-                // Start the coroutine to change it back to its default after 1 second
-                StartCoroutine(ResetACubeMaterialAfterTime(1, notesIndex));
-
             }
         }
         // Exit back to menu
