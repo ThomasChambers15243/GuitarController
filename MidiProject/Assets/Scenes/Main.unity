@@ -743,7 +743,6 @@ MonoBehaviour:
   stringGapScalar: -1.2
   noteGapScalar: 1.6
   audioSource: {fileID: 488457833}
-  testingInputVoltage: 0
   cubeNote: {fileID: 6788753615998209550, guid: 7dd101a981c9100439d8bbaf36dafbca,
     type: 3}
   cubeSpawnDistance: 10
