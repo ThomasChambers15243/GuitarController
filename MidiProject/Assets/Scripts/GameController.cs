@@ -141,14 +141,9 @@ public class GameController : MonoBehaviour
                         audioSource.Play();
                     }
 
-                    // Countdown for game to start
-                    IEnumerator countdown = Countdown(3);
-                    StartCoroutine(countdown);
-
                     // Starts game map
                     if (startMap)
                     {
-                        StopCoroutine(countdown);
                         // Plays next note
                         if (clock >= beat)
                         {
@@ -289,21 +284,6 @@ public class GameController : MonoBehaviour
         ChangeMaterialTo(notes[targetCubeIndex], "Materials/Notes/RightNote");
         SpawnCubeNotes(cubeSpawnDistance, targetCubeIndex);
         MoveCubeNotesToNote(targetCubeIndex, (cubeSpawnDistance / beat));
-    }
-
-    /// <summary>
-    /// Countdown for the map to start
-    /// </summary>
-    /// <param name="timeToCount">Length of countdown</param>
-    private IEnumerator Countdown(int timeToCount)
-    {
-        int count = timeToCount;
-        while (count > 0)
-        {
-            count -= 1;
-            yield return new WaitForSeconds(1);
-        }
-        startMap = true;
     }
 
     /// <summary>
@@ -558,9 +538,10 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void FreePlay()
     {
+        Debug.Log("In Free play");
         for (int i = 0; i < 6; i++)
         {
-            int tempIndex = neckHolder.GetStrings()[i].GetNoteIndex(analogValues[i]);           
+            int tempIndex = neckHolder.GetStrings()[i].GetNoteIndex(analogValues[i]);
             // If there is a played note, play it
             if (tempIndex != -1)
             {
